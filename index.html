@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Think!EHR Rest Example</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script src="js/example.js"></script>
+</head>
+<body>
+
+<h3 id="header">
+    <!-- header will be rendered here -->
+</h3>
+<div id="result">
+    <!-- result will be rendered here -->
+</div>
+
+</body>
+</html>
+
+
+<script>
+    var url = 'https://ql-demo.marand.si/data?size=15';
+
+    /**
+     * Get page form url
+     *
+     * @param url
+     * @returns {string}
+     * @constructor
+     */
+    function Get(url){
+        var Httpreq = new XMLHttpRequest(); // a new request
+        Httpreq.open("GET", url, false);
+        Httpreq.send(null);
+        return Httpreq.responseText;
+    }
+
+    var json_obj = JSON.parse(Get(url));
+    console.log("this is the author name: "+json_obj);
+
+//    /*
+//    var i;
+//    for (i = 0; i < 4; ++i) {
+//
+//        /* UPPER PRESSURE value 140*/
+//        var  upper_pressure_value = json_obj.hits[i]._source.qcl_json_data.records[0].systolic.value;
+//        /* UPPER PRESSURE unit  mm(hg)*/
+//        var upper_pressure_unit = json_obj.hits[i]._source.qcl_json_data.records[0].systolic.unit;
+//
+//        /* DIASTOLIC value 80*/
+//        var diastolic_value = json_obj.hits[i]._source.qcl_json_data.records[0].diastolic.value;
+//        /* DIASTOLIC unit mm(hg)*/
+//        var diastolic_unit = json_obj.hits[i]._source.qcl_json_data.records[0].diastolic.unit;
+//
+//        /* MIDDLE PRESSURE value 100*/
+//        var pressure_middle_value = json_obj.hits[i]._source.qcl_json_data.records[0].meanArterialPressure.value;
+//        /* MIDDLE PRESSURE unit mm(hg) */
+//        var pressure_middle_unit = json_obj.hits[i]._source.qcl_json_data.records[0].meanArterialPressure.unit;
+//
+//        /* WEIGHT*/
+//        var weight_value = json_obj.hits[i]._source.qcl_json_data.records[0].weight.value;
+//        ///97.7
+//        var weight_unit = json_obj.hits[i]._source.qcl_json_data.records[0].weight.unit;
+//        ///kg
+//
+//        var temperature_body_value =json_obj.hits[i]._source.qcl_json_data.records[0].temperatureBody.value;
+//        // 34.6 body temperature
+//        var temperature_body_init = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureBody.unit;
+//        // cel
+//        var temperature_ambient_value = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureAmbient.value;
+//        // 25.3 pace temperature
+//        var temperature_ambient_unit = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureAmbient.unit;
+//        // cel
+//
+//        var pulse_rate_value = json_obj.hits[i]._source.qcl_json_data.records[0].pulseRate.value;
+//        ///48
+//        var pulse_rate_unit = json_obj.hits[i]._source.qcl_json_data.records[0].pulseRate.unit;
+//        // bpm
+//    }
+//    */
+
+
+
+    http://127.0.0.1:8080
+
+    var ehrId = "8521e620-d38e-4fd6-9071-f785c2ece9b3";
+    var baseUrl = 'https://rest.ehrscape.com/rest/v1';
+    var queryUrl = baseUrl + '/query';
+    var username = 'medrock2017';
+    var password = 'medrock2017';
+    var authorization = "Basic " + btoa(username + ":" + password);
+
+    $.ajax({
+        url: baseUrl + "/view/" + ehrId + "/body_temperature",
+        type: 'GET',
+        headers: {
+            "Authorization": authorization
+        },
+        success: function (res) {
+            $("#header").append("Body Temperatures");
+            for (var i in res) {
+                $("#result").append(res[i].time + ': ' + res[i].temperature  + res[i].unit + "<br>");
+            }
+        }
+    });
+
+
+    /* CHAT BOOT */
+    var headID = document.getElementsByTagName("head")[0];
+    var newCss = document.createElement('link');
+    newCss.rel = 'stylesheet';
+    newCss.type = 'text/css';
+    window._botUsername = '630143';
+    window._botName = 'WarnADoc';
+    newCss.href = "http://rebot.me/assets/css/bot.css";
+    var newScript = document.createElement('script');
+    newScript.src = "http://rebot.me/assets/js/bot.js";
+    newScript.type = 'text/javascript';
+    headID.appendChild(newScript);
+    headID.appendChild(newCss);
+
+
+
+</script>
