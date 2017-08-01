@@ -13,6 +13,9 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
+    <!-- d3.js -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
@@ -71,6 +74,7 @@
 
 
     var ehrId = "820004f5-0173-4877-9604-e92ace0a3af5";
+    //var ehrId = "50e1f335-9f17-4d0e-8a2c-c396cb3869a9";
 
     var baseUrl = 'https://rest.ehrscape.com/rest/v1';
     var queryUrl = baseUrl + '/query';
@@ -80,8 +84,8 @@
 
 
     var i;
-    var systolic_value = diastolic_value = pressure_middle_value = weight_value = temperature_body_value = temperature_ambient_value = pulse_rate_value = measurement_time = null
-    for (i = 0; i < 5; ++i) {
+    var systolic_value = diastolic_value = pressure_middle_value = weight_value = temperature_body_value = temperature_ambient_value = pulse_rate_value = measurement_time = null;
+    for (i = 0; i < 3; ++i) {
 
         try {
             /* UPPER PRESSURE value 140*/
@@ -153,7 +157,8 @@
         "vital_signs/blood_pressure/any_event/systolic": systolic_value,
         "vital_signs/blood_pressure/any_event/diastolic": diastolic_value,
         "vital_signs/body_weight/any_event/body_weight": weight_value,
-        "vital_signs/blood_pressure/any_event/pulse_pressure": pulse_rate_value
+        "vital_signs/pulse:0/any_event:0/rate|magnitude": pulse_rate_value,
+        "vital_signs/pulse:0/any_event:0/rate|unit": "/min"
     };
 
     var queryParams = {
@@ -252,7 +257,6 @@
             "Authorization": authorization
         },
         success: function (res) {
-            $("#blood_pressure").append("Blood pressure");
             for (var i in res) {
                 $("#blood_pressure_result_systolic").append( res[i].systolic + "</br>");
                 $("#blood_pressure_result_diastolic").append(res[i].diastolic + "</br>");
@@ -268,7 +272,6 @@
             "Authorization": authorization
         },
         success: function (res) {
-            $("#weight").append("Weight");
             for (var i in res) {
                 $("#weight_result").append(res[i].weight + "</br>");
             }
@@ -284,7 +287,6 @@
             "Authorization": authorization
         },
         success: function (res) {
-            $("#pulse").append("Pulse");
             for (var i in res) {
                 $("#pulse_result").append(res[i].pulse + "</br>");
             }
