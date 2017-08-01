@@ -40,59 +40,157 @@
     var json_obj = JSON.parse(Get(url));
     console.log("this is the author name: "+json_obj);
 
-//    /*
-//    var i;
-//    for (i = 0; i < 4; ++i) {
-//
-//        /* UPPER PRESSURE value 140*/
-//        var  upper_pressure_value = json_obj.hits[i]._source.qcl_json_data.records[0].systolic.value;
-//        /* UPPER PRESSURE unit  mm(hg)*/
-//        var upper_pressure_unit = json_obj.hits[i]._source.qcl_json_data.records[0].systolic.unit;
-//
-//        /* DIASTOLIC value 80*/
-//        var diastolic_value = json_obj.hits[i]._source.qcl_json_data.records[0].diastolic.value;
-//        /* DIASTOLIC unit mm(hg)*/
-//        var diastolic_unit = json_obj.hits[i]._source.qcl_json_data.records[0].diastolic.unit;
-//
-//        /* MIDDLE PRESSURE value 100*/
-//        var pressure_middle_value = json_obj.hits[i]._source.qcl_json_data.records[0].meanArterialPressure.value;
-//        /* MIDDLE PRESSURE unit mm(hg) */
-//        var pressure_middle_unit = json_obj.hits[i]._source.qcl_json_data.records[0].meanArterialPressure.unit;
-//
-//        /* WEIGHT*/
-//        var weight_value = json_obj.hits[i]._source.qcl_json_data.records[0].weight.value;
-//        ///97.7
-//        var weight_unit = json_obj.hits[i]._source.qcl_json_data.records[0].weight.unit;
-//        ///kg
-//
-//        var temperature_body_value =json_obj.hits[i]._source.qcl_json_data.records[0].temperatureBody.value;
-//        // 34.6 body temperature
-//        var temperature_body_init = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureBody.unit;
-//        // cel
-//        var temperature_ambient_value = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureAmbient.value;
-//        // 25.3 pace temperature
-//        var temperature_ambient_unit = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureAmbient.unit;
-//        // cel
-//
-//        var pulse_rate_value = json_obj.hits[i]._source.qcl_json_data.records[0].pulseRate.value;
-//        ///48
-//        var pulse_rate_unit = json_obj.hits[i]._source.qcl_json_data.records[0].pulseRate.unit;
-//        // bpm
-//    }
-//    */
-
-
-
-    http://127.0.0.1:8080
-
-    var ehrId = "8521e620-d38e-4fd6-9071-f785c2ece9b3";
+    var ehrId = "820004f5-0173-4877-9604-e92ace0a3af5";
     var baseUrl = 'https://rest.ehrscape.com/rest/v1';
     var queryUrl = baseUrl + '/query';
     var username = 'medrock2017';
     var password = 'medrock2017';
     var authorization = "Basic " + btoa(username + ":" + password);
 
+    var i;
+    var systolic_value = diastolic_value = pressure_middle_value = weight_value = temperature_body_value = temperature_ambient_value = pulse_rate_value = measurement_time = null
+    for (i = 0; i < 5; ++i) {
+
+        try {
+            /* UPPER PRESSURE value 140*/
+            systolic_value = json_obj.hits[i]._source.qcl_json_data.records[0].systolic.value;   
+        } catch(err) {
+            console.log("catch")
+        }
+
+
+        try {
+            /* DIASTOLIC value 80*/
+            diastolic_value = json_obj.hits[i]._source.qcl_json_data.records[0].diastolic.value;
+        } catch(err) {
+            console.log("catch")
+        }
+
+
+        try {
+            /* MIDDLE PRESSURE value 100*/
+            pressure_middle_value = json_obj.hits[i]._source.qcl_json_data.records[0].meanArterialPressure.value;      
+
+        } catch(err) {
+            console.log("catch")
+        }
+
+        try {
+            /* WEIGHT*/
+            weight_value = json_obj.hits[i]._source.qcl_json_data.records[0].weight.value;    
+        } catch(err) {
+            console.log("catch")
+        }
+
+        try {
+            temperature_body_value = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureBody.value;    
+        } catch(err) {
+            console.log("catch")
+        }
+                 
+        try {
+            temperature_ambient_value = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureAmbient.value; 
+        } catch(err) {
+            console.log("catch")
+        }
+
+        try {
+            pulse_rate_value = json_obj.hits[i]._source.qcl_json_data.records[0].pulseRate.value;
+        } catch(err) {
+            console.log("catch")
+        }
+        
+        try {
+            measurement_time = json_obj.hits[i]._source.qcl_json_data.deviceDetails.measurementTime.value.toDateString();
+        } catch(err) {
+            console.log("catch")
+        }
+        // windows.$json.hits[0].sourcce.qcl_json_data.deviceDetails.measurementTime.value
+
+    }
+
+    // 
+
+    var compositionData = {
+        "ctx/time": measurement_time,
+        "ctx/language": "en",
+        "ctx/territory": "CA",
+        "vital_signs/body_temperature/any_event/temperature|magnitude": temperature_body_value,
+        "vital_signs/body_temperature/any_event/temperature|unit": "°C",
+        "vital_signs/blood_pressure/any_event/systolic": systolic_value,
+        "vital_signs/blood_pressure/any_event/diastolic": diastolic_value,
+        "vital_signs/body_weight/any_event/body_weight": weight_value
+    };
+
+    var queryParams = {
+        "ehrId": ehrId,
+        templateId: 'Vital Signs',
+        format: 'FLAT',
+        committer: 'Belinda Nurse'
+    };
+
+    $.ajaxSetup({
+    headers: {
+        "Authorization": authorization
+    }
+    });
+
     $.ajax({
+        url: baseUrl + "/composition?" + $.param(queryParams),
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(compositionData),
+        success: function (res) {
+            $("#header").html("Store composition");
+            $("#result").html(res.meta.href);
+            console.log("success");
+        }
+    });
+
+    // POST DATA TO THER
+
+    /*$.ajaxSetup({
+    headers: {
+        "Authorization": authorization
+    }
+    });
+    $.ajax({
+        url: baseUrl + "/ehr",
+        type: 'POST',
+        success: function (data) {
+            var ehrId = data.ehrId;
+            $("#header").html("EHR: " + ehrId);
+
+            // build party data
+            var partyData = {
+                firstNames: "Edo",
+                lastNames: "Lj",
+                dateOfBirth: "1994-7-18T19:30",
+                partyAdditionalInfo: [
+                    {
+                        key: "ehrId",
+                        value: ehrId
+                    }
+                ]
+            };
+            $.ajax({
+                url: baseUrl + "/demographics/party",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(partyData),
+                success: function (party) {
+                    if (party.action == 'CREATE') {
+                        $("#result").html("Created: " + party.meta.href);
+                    }
+                }
+            });
+        }
+    });*/
+
+    
+    // READ DATA FROM THER
+
+    /*$.ajax({
         url: baseUrl + "/view/" + ehrId + "/body_temperature",
         type: 'GET',
         headers: {
@@ -105,6 +203,22 @@
             }
         }
     });
+
+    $.ajaxSetup({
+    headers: {
+        "Authorization": authorization
+    }
+    });
+    $.ajax({
+        url: baseUrl + "/view/" + ehrId + "/blood_pressure",
+        type: 'GET',
+        success: function (res) {
+            $("#header").html("Blood pressures");
+            for (var i in res) {
+                $("#result").append(res[i].time + ': ' + res[i].systolic + '/' + res[i].diastolic + res[i].unit + "<br>");
+            }
+        }
+    });*/
 
 
     /* CHAT BOOT */
