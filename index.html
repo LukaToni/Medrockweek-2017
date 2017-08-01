@@ -1,20 +1,45 @@
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Think!EHR Rest Example</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-    <script src="js/example.js"></script>
+
+    <!-- jQuery 3.2.1 -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<h3 id="header">
-    <!-- header will be rendered here -->
-</h3>
-<div id="result">
-    <!-- result will be rendered here -->
-</div>
+<h2 id="ehrid">EHRID: </h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Temperature [°C]</th>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Systolic [mm[Hg]]</th>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Diastolic [mm[Hg]]</th>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Weight [kg]</th>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Pulse [/min]</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="temperature_result" ></th>
+        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="blood_pressure_result_systolic"></td>
+        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="blood_pressure_result_diastolic"></td>
+        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="weight_result"></td>
+        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="pulse_result"></td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>
@@ -38,7 +63,7 @@
     }
 
     var json_obj = JSON.parse(Get(url));
-    console.log("this is the author name: "+json_obj);
+    //console.log("this is the author name: "+json_obj);
 
 //    /*
 //    var i;
@@ -81,17 +106,17 @@
 //    }
 //    */
 
-
-
-    http://127.0.0.1:8080
-
-    var ehrId = "8521e620-d38e-4fd6-9071-f785c2ece9b3";
+    var ehrId = "50e1f335-9f17-4d0e-8a2c-c396cb3869a9";
     var baseUrl = 'https://rest.ehrscape.com/rest/v1';
     var queryUrl = baseUrl + '/query';
     var username = 'medrock2017';
     var password = 'medrock2017';
     var authorization = "Basic " + btoa(username + ":" + password);
 
+    /* EHRID */
+    $("#ehrid").append( ehrId );
+
+    /* TEMPERATURE */
     $.ajax({
         url: baseUrl + "/view/" + ehrId + "/body_temperature",
         type: 'GET',
@@ -99,12 +124,61 @@
             "Authorization": authorization
         },
         success: function (res) {
-            $("#header").append("Body Temperatures");
+            $("#temperature").append("Body Temperatures");
             for (var i in res) {
-                $("#result").append(res[i].time + ': ' + res[i].temperature  + res[i].unit + "<br>");
+                $("#temperature_result").append(/*res[i].time + ': ' +*/ res[i].temperature +  "<br>");
+                console.log(res[i].temperature);
             }
         }
     });
+
+
+    /* BLOOD */
+    $.ajax({
+        url: baseUrl + "/view/" + ehrId + "/blood_pressure",
+        type: 'GET',
+        headers: {
+            "Authorization": authorization
+        },
+        success: function (res) {
+            $("#blood_pressure").append("Blood pressure");
+            for (var i in res) {
+                $("#blood_pressure_result_systolic").append( res[i].systolic  + "<br>");
+                $("#blood_pressure_result_diastolic").append(res[i].diastolic + "<br>");
+            }
+        }
+    });
+
+    /* WEIGHT */
+    $.ajax({
+        url: baseUrl + "/view/" + ehrId + "/weight",
+        type: 'GET',
+        headers: {
+            "Authorization": authorization
+        },
+        success: function (res) {
+            $("#weight").append("Weight");
+            for (var i in res) {
+                $("#weight_result").append(res[i].weight + "<br>");
+            }
+        }
+    });
+
+    /* PULSE */
+    $.ajax({
+        url: baseUrl + "/view/" + ehrId + "/pulse",
+        type: 'GET',
+        headers: {
+            "Authorization": authorization
+        },
+        success: function (res) {
+            $("#pulse").append("Pulse");
+            for (var i in res) {
+                $("#pulse_result").append(res[i].pulse + "<br>");
+            }
+        }
+    });
+
 
 
     /* CHAT BOOT */
@@ -120,7 +194,5 @@
     newScript.type = 'text/javascript';
     headID.appendChild(newScript);
     headID.appendChild(newCss);
-
-
 
 </script>
