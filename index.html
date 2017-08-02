@@ -1,584 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Think!EHR Rest Example</title>
+	<meta charset="UTF-8">
+	<title>Day 001 Login Form</title>
+	<!-- jQuery 3.2.1*/ -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!--  Google api css -->
+	<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
+	<link rel="stylesheet" href="css/style.css">
 
-    <!-- jQuery 3.2.1 -->
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- d3.js -->
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-    <!-- chart loader from google -->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  
 </head>
+
 <body>
+  <div class="login-wrap">
+	<div class="login-html">
+		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+		<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+		<div class="login-form">
+			<div class="sign-in-htm">
+				<div class="group">
+					<label for="user" class="label">Username</label>
+					<input id="user" type="text" class="input">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Password</label>
+					<input id="pass" type="password" class="input" data-type="password">
+				</div>
+				<div class="group">
+					<input id="check" type="checkbox" class="check" checked>
+					<label for="check"><span class="icon"></span> Keep me Signed in</label>
+				</div>
+				<div class="group">
+					<input type="submit" id="sign_in" class="button" value="Sign In">
+				</div>
 
-    <div id="header"></div>
-    <div id="result"></div>
 
-    <h2 id="ehrid">EHRID: </h2>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Temperature [°C]</th>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Systolic [mm[Hg]]</th>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Diastolic [mm[Hg]]</th>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Weight [kg]</th>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Pulse [/min]</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="temperature_result" ></th>
-            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="blood_pressure_result_systolic"></td>
-            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="blood_pressure_result_diastolic"></td>
-            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="weight_result"></td>
-            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="pulse_result"></td>
-        </tr>
-        </tbody>
-    </table>
-    <!-- Graphs --->
-    <div style="float: left; text-align: center;">
-        <label><h2>Temperature graph</h2></label>
-        <div id="Temparature_Graph" style="width: 700px; height: 500px;"></div>
-    </div>
-    <div style="float: left; text-align: center;">
-        <label><h2>Blood pressure graph</h2></label>
-        <div id="BloodPressure_Graph" style="width: 700px; height: 500px;"></div>
-    </div>
-
-    <div style="float: left; text-align: center;">
-        <label><h2>Weight graph</h2></label>
-        <div id="Weight_Graph" style="width: 700px; height: 500px;"></div>
-    </div>
-    <div style="float: left; text-align: center;">
-        <label><h2>Pulse graph</h2></label>
-        <div id="Pulse_Graph" style="width: 700px; height: 500px;"></div>
-    </div>
-    <a href="picture/icon_white@1x.png"></a>
+				<div class="hr"></div>
+				<div class="foot-lnk">
+					<a href="#forgot">Forgot Password?</a>
+				</div>
+			</div>
+			<div class="sign-up-htm">
+				<div class="group">
+					<label for="user" class="label">Username</label>
+					<input id="user_up" type="text" class="input">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Password</label>
+					<input id="pass1" type="password" class="input" data-type="password">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Repeat Password</label>
+					<input id="pass2" type="password" class="input" data-type="password">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Email Address</label>
+					<input id="mail" type="text" class="input">
+				</div>
+				<div class="group">
+					<input type="submit" class="button" value="Sign Up">
+				</div>
+				<div class="hr"></div>
+				<div class="foot-lnk">
+					<label for="tab-1">Already Member?</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+  
+  
 </body>
 </html>
 
-
 <script>
-    var url = 'https://ql-demo.marand.si/data?size=15';
-
-    /**
-     * Get page form url
-     *
-     * @param url
-     * @returns {string}
-     * @constructor
-     */
-    function Get(url){
-        var Httpreq = new XMLHttpRequest(); // a new request
-        Httpreq.open("GET", url, false);
-        Httpreq.send(null);
-        return Httpreq.responseText;
-    }
-
-    var json_obj = JSON.parse(Get(url));
-    //console.log("this is the author name: "+json_obj);
-
-
-
-    //var ehrId = "820004f5-0173-4877-9604-e92ace0a3af5";
-    var ehrId = "50e1f335-9f17-4d0e-8a2c-c396cb3869a9";
-
-    var baseUrl = 'https://rest.ehrscape.com/rest/v1';
-    var queryUrl = baseUrl + '/query';
-    var username = 'medrock2017';
-    var password = 'medrock2017';
-    var authorization = "Basic " + btoa(username + ":" + password);
-
-
-    var i;
-    var systolic_value = diastolic_value = pressure_middle_value = weight_value = temperature_body_value = temperature_ambient_value = pulse_rate_value = measurement_time = null;
-    for (i = 0; i < 3; ++i) {
-
-        try {
-            /* UPPER PRESSURE value 140*/
-            systolic_value = json_obj.hits[i]._source.qcl_json_data.records[0].systolic.value;   
-        } catch(err) {
-            //
-        }
-
-        try {
-            /* DIASTOLIC value 80*/
-            diastolic_value = json_obj.hits[i]._source.qcl_json_data.records[0].diastolic.value;
-        } catch(err) {
-            //
-        }
-
-        try {
-            /* MIDDLE PRESSURE value 100*/
-            pressure_middle_value = json_obj.hits[i]._source.qcl_json_data.records[0].meanArterialPressure.value;
-        } catch(err) {
-            //
-        }
-
-        try {
-            /* WEIGHT*/
-            weight_value = json_obj.hits[i]._source.qcl_json_data.records[0].weight.value;    
-        } catch(err) {
-            //
-        }
-
-        try {
-            temperature_body_value = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureBody.value;    
-        } catch(err) {
-            //
-        }
-                 
-        try {
-            temperature_ambient_value = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureAmbient.value; 
-        } catch(err) {
-            //
-        }
-
-        try {
-            pulse_rate_value = json_obj.hits[i]._source.qcl_json_data.records[0].pulseRate.value;
-        } catch(err) {
-            //
-        }
-        
-        try {
-            measurement_time = json_obj.hits[i]._source.qcl_json_data.deviceDetails.measurementTime.value.toDateString();
-        } catch(err) {
-            //
-        }
-        // windows.$json.hits[0].sourcce.qcl_json_data.deviceDetails.measurementTime.value
-    }
-
-    /* POST DATA TO EHR */
-    var compositionData = {
-        "ctx/time": measurement_time,
-        "ctx/language": "en",
-        "ctx/territory": "CA",
-        "vital_signs/body_temperature/any_event/temperature|magnitude": temperature_body_value,
-        "vital_signs/body_temperature/any_event/temperature|unit": "°C",
-        "vital_signs/blood_pressure/any_event/systolic": systolic_value,
-        "vital_signs/blood_pressure/any_event/diastolic": diastolic_value,
-        "vital_signs/body_weight/any_event/body_weight": weight_value,
-        "vital_signs/pulse:0/any_event:0/rate|magnitude": pulse_rate_value,
-        "vital_signs/pulse:0/any_event:0/rate|unit": "/min"
-    };
-
-    var queryParams = {
-        "ehrId": ehrId,
-        templateId: 'Vital Signs',
-        format: 'FLAT',
-        committer: 'Belinda Nurse'
-    };
-
-    $.ajaxSetup({
-    headers: {
-        "Authorization": authorization
-    }
+    $('#sign_in').click(function(e) {
+        console.log("Loading...");
+        //$(this).text("Loading..."); // do your UI thing here
+        e.preventDefault();
+        var destination = "main.html";
+		/* loading page*/
+        setTimeout(function() {
+            window.location = destination;
+        },1000);
     });
-
-
-    /* EHRID */
-    $("#ehrid").append( ehrId );
-
-    /* TEMPERATURE */
-    $.ajax({
-        url: baseUrl + "/composition?" + $.param(queryParams),
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(compositionData),
-        success: function (res) {
-            $("#header").html("Store composition");
-            $("#result").html(res.meta.href);
-            console.log("success");
-        }
-    });
-
-    // POST DATA TO THER
-
-    /*$.ajaxSetup({
-    headers: {
-        "Authorization": authorization
-    }
-    });
-    $.ajax({
-        url: baseUrl + "/ehr",
-        type: 'POST',
-        success: function (data) {
-            var ehrId = data.ehrId;
-            $("#header").html("EHR: " + ehrId);
-
-            // build party data
-            var partyData = {
-                firstNames: "Edo",
-                lastNames: "Lj",
-                dateOfBirth: "1994-7-18T19:30",
-                partyAdditionalInfo: [
-                    {
-                        key: "ehrId",
-                        value: ehrId
-                    }
-                ]
-            };
-            $.ajax({
-                url: baseUrl + "/demographics/party",
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(partyData),
-                success: function (party) {
-                    if (party.action == 'CREATE') {
-                        $("#result").html("Created: " + party.meta.href);
-                    }
-                }
-            });
-        }
-    });*/
-
-    /* READ DATA FROM EHR */
-    $.ajax({
-        url: baseUrl + "/view/" + ehrId + "/body_temperature",
-        type: 'GET',
-        headers: {
-            "Authorization": authorization
-        },
-        success: function (res) {
-            $("#temperature").append("Body Temperatures");
-            var body_temperature_array = [];
-            for (var i in res) {
-                $("#temperature_result").append(res[i].temperature + "</br>");
-                body_temperature_array.push(res[i].temperature);
-            }
-        
-            drawGraphBT(body_temperature_array);
-        }
-    });
-
-    /* BLOOD */
-    $.ajax({
-        url: baseUrl + "/view/" + ehrId + "/blood_pressure",
-        type: 'GET',
-        headers: {
-            "Authorization": authorization
-        },
-        success: function (res) {
-            var systolic_array = [];
-            var diastolic_array = [];
-            for (var i in res) {
-                $("#blood_pressure_result_systolic").append( res[i].systolic + "</br>");
-                $("#blood_pressure_result_diastolic").append(res[i].diastolic + "</br>");
-                systolic_array.push(res[i].systolic);
-                diastolic_array.push(res[i].diastolic);
-            }    
-
-            drawGraphBP(systolic_array, diastolic_array);
-        }
-    });
-
-    /* WEIGHT */
-    $.ajax({
-        url: baseUrl + "/view/" + ehrId + "/weight",
-        type: 'GET',
-        headers: {
-            "Authorization": authorization
-        },
-        success: function (res) {
-            var weight_array = [];
-            for (var i in res) {
-                $("#weight_result").append(res[i].weight + "</br>");
-                weight_array.push(res[i].weight);
-            }
-        
-        drawGraphW(weight_array);
-        }
-    });
-
-    /* PULSE */
-    $.ajax({
-        url: baseUrl + "/view/" + ehrId + "/pulse",
-        type: 'GET',
-        headers: {
-            "Authorization": authorization
-        },
-        success: function (res) {
-            var pulse_array = [];
-            for (var i in res) {
-                $("#pulse_result").append(res[i].pulse + "</br>");
-                pulse_array.push(res[i].pulse);
-            }
-
-        drawGraphP(pulse_array);    
-        }
-    });
-
-    function drawGraphBT(body_temperature_array) {
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChartBT);
-
-        function drawChartBT() {
-            var data = new google.visualization.DataTable();
-            data.addColumn("string", "year");
-            data.addColumn('number', 'temparature');
-
-            for(i = 0; i < body_temperature_array.length; i++) {
-                data.addRow(["2011", Number(body_temperature_array[i])]);
-            }
-            // Create and draw the visualization.
-            var options = {
-                title: 'Body temparature',
-                curveType: 'function',
-                legend: { position: 'bottom' }
-            };
-            var chart = new google.visualization.LineChart(document.getElementById('Temparature_Graph'));
-
-            chart.draw(data, options);
-        }
-    }
-
-    function drawGraphBP(systolic_array, diastolic_array) {
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChartBP);
-
-        function drawChartBP() {
-            var data = new google.visualization.DataTable();
-            data.addColumn("string", "year");
-            data.addColumn('number', 'diastolic');
-            data.addColumn('number', 'systolic');
-
-            for(i = 0; i < diastolic_array.length; i++) {
-                data.addRow(["2011", Number(diastolic_array[i]), Number(systolic_array[i])]);
-            }
-            // Create and draw the visualization.
-            var options = {
-                title: 'Blood Pressure',
-                curveType: 'function',
-                legend: { position: 'bottom' }
-            };
-            var chart = new google.visualization.LineChart(document.getElementById('BloodPressure_Graph'));
-
-            chart.draw(data, options);
-        }
-    } 
-
-    function drawGraphW(weight_array) {
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChartW);
-
-        function drawChartW() {
-            var data = new google.visualization.DataTable();
-            data.addColumn("string", "year");
-            data.addColumn('number', 'weight');
-
-            for(i = 0; i < weight_array.length; i++) {
-                data.addRow(["2011", Number(weight_array[i])]);
-            }
-            // Create and draw the visualization.
-            var options = {
-                title: 'Weight',
-                curveType: 'function',
-                legend: { position: 'bottom' }
-            };
-            var chart = new google.visualization.LineChart(document.getElementById('Weight_Graph'));
-
-            chart.draw(data, options);
-        }
-    } 
-
-    function drawGraphP(pulse_array) {
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChartP);
-
-        function drawChartP() {
-            var data = new google.visualization.DataTable();
-            data.addColumn("string", "year");
-            data.addColumn('number', 'pulse');
-
-            for(i = 0; i < pulse_array.length; i++) {
-                data.addRow(["2011", Number(pulse_array[i])]);
-            }
-            // Create and draw the visualization.
-            var options = {
-                title: 'Pulse',
-                curveType: 'function',
-                legend: { position: 'bottom' }
-            };
-            var chart = new google.visualization.LineChart(document.getElementById('Pulse_Graph'));
-
-            chart.draw(data, options);
-        }
-    } 
-
-    /*read data from JSON */
-    var url_dia = 'diastolic.json';
-    var url_sys = 'systolic.json';
-    var url_pulse = 'pulse.json';
-    var url_temp = 'Temperature.json';
-
-    var json_object_dia = JSON.parse(Get(url_dia));
-    var json_object_sys = JSON.parse(Get(url_sys));
-    var json_object_pulse = JSON.parse(Get(url_pulse));
-    var json_object_temp = JSON.parse(Get(url_temp));
-
-    var json_object_dia_len = Object.keys(json_object_dia).length;
-    var json_object_sys_len = Object.keys(json_object_sys).length;
-    var json_object_pulse_len = Object.keys(json_object_pulse).length;
-    var json_object_temp_len = Object.keys(json_object_temp).length;
-
-    var systolic_val = new Array(json_object_sys_len);
-    var diastolic_val = new Array(json_object_dia_len);
-    var temperature_body_val = new Array(json_object_pulse_len);
-    var pulse_rate_val = new Array(json_object_temp_len);
-    
-    function getDataFromJSON(length) {
-        for (i = 0; i < length; ++i) {
-            try { 
-                systolic_val[i] = json_object_sys[i][0]; 
-            } catch(err) {
-                //console.log("catch")
-            }
-            try { 
-                diastolic_val[i] = json_object_dia[i][0]; 
-            } catch(err) {
-                //console.log("catch")
-            }
-            try { 
-                temperature_body_val[i] = json_object_pulse[i][0]; 
-            } catch(err) {
-                //console.log("catch")
-            }
-            try { 
-                pulse_rate_val[i] = json_object_temp[i][0]; 
-            } catch(err) {
-                //console.log("catch")
-            }
-        }
-    }
-
-    getDataFromJSON(json_object_sys_len);
-    getDataFromJSON(json_object_dia_len);
-    getDataFromJSON(json_object_pulse_len);
-    getDataFromJSON(json_object_temp_len);
-
-    var high = 0;
-    var low = 0;
-    var normal = 0;
-
-    // DAILY STATISTICS
-    // SYS: 90, 90, 140
-    // DIA: 60, 60, 90
-    // temp: 35.8, 35.8, 37.2
-    // pulse: 60,60,100
-
-    function getDailyStatistics(array, lower_limit, high_limit) {
-        var days = new Array(array.length);
-        for(var i=0; i < array.length; i++) {
-            low = 0;
-            high = 0;
-            normal = 0;
-            for(var j=0; j < 3; j++) {
-                var a = array[i];
-                if (a <= lower_limit) {
-                    low++;
-
-                } else if (lower_limit < a && a < high_limit) {
-                    normal++;
-
-                } else {
-                    high++;
-                }
-            }                
-                days[i] = [];
-                days[i][0] = low;
-                days[i][1] = normal;
-                days[i][2] = high;
-        }
-        return days;
-    }
-
-
-    var dailySys = getDailyStatistics(systolic_val, 90, 140);
-    var dailyDis = getDailyStatistics(diastolic_val, 60, 90);
-    var dailyPulse = getDailyStatistics(pulse_rate_val, 60, 100);
-    var dailyTemp = getDailyStatistics(temperature_body_val, 35.8, 37.2);
-    console.log(dailySys);
-
-    function getDailyPercentage(dailyData) {
-        var dailyStats = new Array(dailyData.length);
-        console.log(dailyStats);
-
-        for(var i = 0; i < dailyStats.length; ++i) {
-            dailyStats[i] = new Array(2);
-                if (dailyData[i][0] == 0) {
-                    dailyStats[i][0] = 0;
-                } 
-                if (dailyData[i][0] == 1) {
-                    dailyStats[i][0] = 1/3*100;
-                } 
-                if (dailyData[i][0] == 2) {
-                    dailyStats[i][0] = 2/3*100;
-                } 
-                if (dailyData[i][0] == 3) {
-                    dailyStats[i][0] = 100;
-                } 
-                if (dailyData[i][1] == 0) {
-                    dailyStats[i][1] = 0;
-                } 
-                if (dailyData[i][1] == 1) {
-                    dailyStats[i][1] = 1/3*100;
-                } 
-                if (dailyData[i][1] == 2) {
-                    dailyStats[i][1] = 2/3*100;
-                } 
-                if (dailyData[i][1] == 3) {
-                    dailyStats[i][1] = 100;
-                } 
-                if (dailyData[i][2] == 0) {
-                    dailyStats[i][2] = 0;
-                } 
-                if (dailyData[i][2] == 1) {
-                    dailyStats[i][2] = 1/3*100;
-                } 
-                if (dailyData[i][2] == 2) {
-                    dailyStats[i][2] = 2/3*100;
-                } 
-                if (dailyData[i][2] == 3) {
-                    dailyStats[i][2] = 100;
-                }
-            }
-        return dailyStats;               
-    }
-
-    // TODO: DATA FOR EDO 
-    var percentageDaySys = getDailyPercentage(dailySys);
-    var percentageDayDia = getDailyPercentage(dailyDis);
-    var percentageDayPulse = getDailyPercentage(dailyPulse);
-    console.log("dhsafd");
-    console.log(percentageDaySys);
-
-    /* CHAT BOOT */
-    var headID = document.getElementsByTagName("head")[0];
-    var newCss = document.createElement('link');
-    newCss.rel = 'stylesheet';
-    newCss.type = 'text/css';
-    window._botUsername = '630143';
-    window._botName = 'WarnADoc';
-    newCss.href = "http://rebot.me/assets/css/bot.css";
-    var newScript = document.createElement('script');
-    newScript.src = "http://rebot.me/assets/js/bot.js";
-    newScript.type = 'text/javascript';
-    headID.appendChild(newScript);
-    headID.appendChild(newCss);
-    //$("#answer").find("img").attr("src", "picture/icon_white@1x.png");
-
 </script>
