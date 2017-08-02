@@ -91,63 +91,57 @@
             /* UPPER PRESSURE value 140*/
             systolic_value = json_obj.hits[i]._source.qcl_json_data.records[0].systolic.value;   
         } catch(err) {
-            console.log("catch")
+            //
         }
-
 
         try {
             /* DIASTOLIC value 80*/
             diastolic_value = json_obj.hits[i]._source.qcl_json_data.records[0].diastolic.value;
         } catch(err) {
-            console.log("catch")
+            //
         }
-
 
         try {
             /* MIDDLE PRESSURE value 100*/
-            pressure_middle_value = json_obj.hits[i]._source.qcl_json_data.records[0].meanArterialPressure.value;      
-
+            pressure_middle_value = json_obj.hits[i]._source.qcl_json_data.records[0].meanArterialPressure.value;
         } catch(err) {
-            console.log("catch")
+            //
         }
 
         try {
             /* WEIGHT*/
             weight_value = json_obj.hits[i]._source.qcl_json_data.records[0].weight.value;    
         } catch(err) {
-            console.log("catch")
+            //
         }
 
         try {
             temperature_body_value = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureBody.value;    
         } catch(err) {
-            console.log("catch")
+            //
         }
                  
         try {
             temperature_ambient_value = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureAmbient.value; 
         } catch(err) {
-            console.log("catch")
+            //
         }
 
         try {
             pulse_rate_value = json_obj.hits[i]._source.qcl_json_data.records[0].pulseRate.value;
         } catch(err) {
-            console.log("catch")
+            //
         }
         
         try {
             measurement_time = json_obj.hits[i]._source.qcl_json_data.deviceDetails.measurementTime.value.toDateString();
         } catch(err) {
-            console.log("catch")
+            //
         }
         // windows.$json.hits[0].sourcce.qcl_json_data.deviceDetails.measurementTime.value
-        
-
     }
 
-    /* POST DATA TO TEHR */ 
-
+    /* POST DATA TO EHR */
     var compositionData = {
         "ctx/time": measurement_time,
         "ctx/language": "en",
@@ -231,9 +225,7 @@
         }
     });*/
 
-    
-    // READ DATA FROM THER
-
+    /* READ DATA FROM EHR */
     $.ajax({
         url: baseUrl + "/view/" + ehrId + "/body_temperature",
         type: 'GET',
@@ -247,7 +239,6 @@
             }
         }
     });
-
 
     /* BLOOD */
     $.ajax({
@@ -278,7 +269,6 @@
         }
     });
 
-
     /* PULSE */
     $.ajax({
         url: baseUrl + "/view/" + ehrId + "/pulse",
@@ -293,7 +283,6 @@
         }
     });
 
-
     /* CHAT BOOT */
     var headID = document.getElementsByTagName("head")[0];
     var newCss = document.createElement('link');
@@ -307,5 +296,4 @@
     newScript.type = 'text/javascript';
     headID.appendChild(newScript);
     headID.appendChild(newCss);
-
 </script>
