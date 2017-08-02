@@ -18,6 +18,9 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- chart loader from google -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
 
@@ -47,6 +50,11 @@
     </tbody>
 </table>
 
+<div id="Temparature_Graph" style="width: 900px; height: 500px"></div>
+<div id="BloodPressure_Graph" style="width: 900px; height: 500px"></div>
+<div id="Weight_Graph" style="width: 900px; height: 500px"></div>
+<div id="Pulse_Graph" style="width: 900px; height: 500px"></div>
+
 </body>
 </html>
 
@@ -73,8 +81,8 @@
 
 
 
-    var ehrId = "820004f5-0173-4877-9604-e92ace0a3af5";
-    //var ehrId = "50e1f335-9f17-4d0e-8a2c-c396cb3869a9";
+    //var ehrId = "820004f5-0173-4877-9604-e92ace0a3af5";
+    var ehrId = "50e1f335-9f17-4d0e-8a2c-c396cb3869a9";
 
     var baseUrl = 'https://rest.ehrscape.com/rest/v1';
     var queryUrl = baseUrl + '/query';
@@ -234,9 +242,13 @@
         },
         success: function (res) {
             $("#temperature").append("Body Temperatures");
+            var body_temperature_array = [];
             for (var i in res) {
                 $("#temperature_result").append(res[i].temperature + "</br>");
+                body_temperature_array.push(res[i].temperature);
             }
+        
+            drawGraphBT(body_temperature_array);
         }
     });
 
@@ -248,10 +260,16 @@
             "Authorization": authorization
         },
         success: function (res) {
+            var systolic_array = [];
+            var diastolic_array = [];
             for (var i in res) {
                 $("#blood_pressure_result_systolic").append( res[i].systolic + "</br>");
                 $("#blood_pressure_result_diastolic").append(res[i].diastolic + "</br>");
-            }
+                systolic_array.push(res[i].systolic);
+                diastolic_array.push(res[i].diastolic);
+            }    
+
+            drawGraphBP(systolic_array, diastolic_array);
         }
     });
 
@@ -263,9 +281,13 @@
             "Authorization": authorization
         },
         success: function (res) {
+            var weight_array = [];
             for (var i in res) {
                 $("#weight_result").append(res[i].weight + "</br>");
+                weight_array.push(res[i].weight);
             }
+        
+        drawGraphW(weight_array);
         }
     });
 
@@ -277,11 +299,112 @@
             "Authorization": authorization
         },
         success: function (res) {
+            var pulse_array = [];
             for (var i in res) {
                 $("#pulse_result").append(res[i].pulse + "</br>");
+                pulse_array.push(res[i].pulse);
             }
+
+        drawGraphP(pulse_array);    
         }
     });
+
+    function drawGraphBT(body_temperature_array) {
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChartBT);
+
+        function drawChartBT() {
+            var data = new google.visualization.DataTable();
+            data.addColumn("string", "year");
+            data.addColumn('number', 'temparature');
+
+            for(i = 0; i < body_temperature_array.length; i++) {
+                data.addRow(["2011", Number(body_temperature_array[i])]);
+            }
+            // Create and draw the visualization.
+            var options = {
+                title: 'Body temparature',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+            var chart = new google.visualization.LineChart(document.getElementById('Temparature_Graph'));
+
+            chart.draw(data, options);
+        }
+    }
+
+    function drawGraphBP(systolic_array, diastolic_array) {
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChartBP);
+
+        function drawChartBP() {
+            var data = new google.visualization.DataTable();
+            data.addColumn("string", "year");
+            data.addColumn('number', 'diastolic');
+            data.addColumn('number', 'systolic');
+
+            for(i = 0; i < diastolic_array.length; i++) {
+                data.addRow(["2011", Number(diastolic_array[i]), Number(systolic_array[i])]);
+            }
+            // Create and draw the visualization.
+            var options = {
+                title: 'Blood Pressure',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+            var chart = new google.visualization.LineChart(document.getElementById('BloodPressure_Graph'));
+
+            chart.draw(data, options);
+        }
+    } 
+
+    function drawGraphW(weight_array) {
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChartW);
+
+        function drawChartW() {
+            var data = new google.visualization.DataTable();
+            data.addColumn("string", "year");
+            data.addColumn('number', 'weight');
+
+            for(i = 0; i < weight_array.length; i++) {
+                data.addRow(["2011", Number(weight_array[i])]);
+            }
+            // Create and draw the visualization.
+            var options = {
+                title: 'Weight',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+            var chart = new google.visualization.LineChart(document.getElementById('Weight_Graph'));
+
+            chart.draw(data, options);
+        }
+    } 
+
+    function drawGraphP(pulse_array) {
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChartP);
+
+        function drawChartP() {
+            var data = new google.visualization.DataTable();
+            data.addColumn("string", "year");
+            data.addColumn('number', 'pulse');
+
+            for(i = 0; i < pulse_array.length; i++) {
+                data.addRow(["2011", Number(pulse_array[i])]);
+            }
+            // Create and draw the visualization.
+            var options = {
+                title: 'Pulse',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+            var chart = new google.visualization.LineChart(document.getElementById('Pulse_Graph'));
+
+            chart.draw(data, options);
+        }
+    } 
 
     /* CHAT BOOT */
     var headID = document.getElementsByTagName("head")[0];
