@@ -24,37 +24,50 @@
 </head>
 <body>
 
-<div id="header"></div>
-<div id="result"></div>
+    <div id="header"></div>
+    <div id="result"></div>
 
-<h2 id="ehrid">EHRID: </h2>
+    <h2 id="ehrid">EHRID: </h2>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Temperature [°C]</th>
-        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Systolic [mm[Hg]]</th>
-        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Diastolic [mm[Hg]]</th>
-        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Weight [kg]</th>
-        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Pulse [/min]</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="temperature_result" ></th>
-        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="blood_pressure_result_systolic"></td>
-        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="blood_pressure_result_diastolic"></td>
-        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="weight_result"></td>
-        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="pulse_result"></td>
-    </tr>
-    </tbody>
-</table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Temperature [°C]</th>
+            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Systolic [mm[Hg]]</th>
+            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Diastolic [mm[Hg]]</th>
+            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Weight [kg]</th>
+            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Pulse [/min]</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="temperature_result" ></th>
+            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="blood_pressure_result_systolic"></td>
+            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="blood_pressure_result_diastolic"></td>
+            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="weight_result"></td>
+            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="pulse_result"></td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Graphs --->
+    <div style="float: left; text-align: center;">
+        <label><h2>Temperature graph</h2></label>
+        <div id="Temparature_Graph" style="width: 700px; height: 500px;"></div>
+    </div>
+    <div style="float: left; text-align: center;">
+        <label><h2>Blood pressure graph</h2></label>
+        <div id="BloodPressure_Graph" style="width: 700px; height: 500px;"></div>
+    </div>
 
-<div id="Temparature_Graph" style="width: 900px; height: 500px"></div>
-<div id="BloodPressure_Graph" style="width: 900px; height: 500px"></div>
-<div id="Weight_Graph" style="width: 900px; height: 500px"></div>
-<div id="Pulse_Graph" style="width: 900px; height: 500px"></div>
-
+    <div style="float: left; text-align: center;">
+        <label><h2>Weight graph</h2></label>
+        <div id="Weight_Graph" style="width: 700px; height: 500px;"></div>
+    </div>
+    <div style="float: left; text-align: center;">
+        <label><h2>Pulse graph</h2></label>
+        <div id="Pulse_Graph" style="width: 700px; height: 500px;"></div>
+    </div>
+    <a href="picture/icon_white@1x.png"></a>
 </body>
 </html>
 
@@ -419,4 +432,6 @@
     newScript.type = 'text/javascript';
     headID.appendChild(newScript);
     headID.appendChild(newCss);
+    //$("#answer").find("img").attr("src", "picture/icon_white@1x.png");
+
 </script>
