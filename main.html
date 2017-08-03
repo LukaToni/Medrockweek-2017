@@ -67,7 +67,16 @@
         <h2>Pulse graph</h2>
         <div id="Pulse_Graph" style="width: 700px; height: 500px;"></div>
     </div>
-    <a href="picture/icon_white@1x.png"></a>
+    
+    <div style="float: left; text-align: center;">
+        <label><h2>Daily Pulse graph</h2></label>
+        <div id="Daily_Pulse" style="width: 700px; height: 500px;"></div>
+    </div>
+    <div style="float: left; text-align: center;">
+        <label><h2>Daily Blood Pressure graph</h2></label>
+        <div id="Daily_BP" style="width: 700px; height: 500px;"></div>
+    </div>
+
 </body>
 </html>
 
@@ -562,12 +571,57 @@
         return dailyStats;               
     }
 
-    // TODO: DATA FOR EDO 
+    // daily data
     var percentageDaySys = getDailyPercentage(dailySys);
     var percentageDayDia = getDailyPercentage(dailyDis);
     var percentageDayPulse = getDailyPercentage(dailyPulse);
-    //console.log("dhsafd");
-    //console.log(percentageDaySys);
+
+    // initialization of google charts
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChartDailyPulse);
+    google.charts.setOnLoadCallback(drawChartDailyBP);
+
+    function drawChartDailyPulse() {
+        var data = google.visualization.arrayToDataTable([
+          ['Day', 'Low', 'Normal', 'High'],
+          ['Mon', percentageDayPulse[0][0], percentageDayPulse[0][1], percentageDayPulse[0][2]],
+          ['Tue', percentageDayPulse[1][0], percentageDayPulse[1][1], percentageDayPulse[1][2]],
+          ['Wed', percentageDayPulse[2][0], percentageDayPulse[2][1], percentageDayPulse[2][2]],
+          ['Thu', percentageDayPulse[3][0], percentageDayPulse[3][1], percentageDayPulse[3][2]],
+          ['Fri', percentageDayPulse[4][0], percentageDayPulse[4][1], percentageDayPulse[4][2]],
+          ['Sat', percentageDayPulse[5][0], percentageDayPulse[5][1], percentageDayPulse[5][2]],
+          ['Sun', percentageDayPulse[6][0], percentageDayPulse[6][1], percentageDayPulse[6][2]]
+        ]);    
+
+        var options = {
+          title: 'Daily Data for Pulse',
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('Daily_Pulse'));
+
+        chart.draw(data, options);
+    }
+
+    function drawChartDailyBP() {
+        var data = google.visualization.arrayToDataTable([
+          ['Day', 'Low_Diastolic', 'Normal_Diastolic', 'High_Diastolic', 'Low_Systolic', 'Normal_Systolic', 'High_Systolic'],
+          ['Mon', percentageDayDia[0][0], percentageDayDia[0][1], percentageDayDia[0][2], percentageDaySys[0][0], percentageDaySys[0][1], percentageDaySys[0][2]],
+          ['Tue', percentageDayDia[1][0], percentageDayDia[1][1], percentageDayDia[1][2], percentageDaySys[1][0], percentageDaySys[1][1], percentageDaySys[1][2]],
+          ['Wed', percentageDayDia[2][0], percentageDayDia[2][1], percentageDayDia[2][2], percentageDaySys[2][0], percentageDaySys[2][1], percentageDaySys[2][2]],
+          ['Thu', percentageDayDia[3][0], percentageDayDia[3][1], percentageDayDia[3][2], percentageDaySys[3][0], percentageDaySys[3][1], percentageDaySys[3][2]],
+          ['Fri', percentageDayDia[4][0], percentageDayDia[4][1], percentageDayDia[4][2], percentageDaySys[4][0], percentageDaySys[4][1], percentageDaySys[4][2]],
+          ['Sat', percentageDayDia[5][0], percentageDayDia[5][1], percentageDayDia[5][2], percentageDaySys[5][0], percentageDaySys[5][1], percentageDaySys[5][2]],
+          ['Sun', percentageDayDia[6][0], percentageDayDia[6][1], percentageDayDia[6][2], percentageDaySys[6][0], percentageDaySys[6][1], percentageDaySys[6][2]]
+        ]);    
+
+        var options = {
+          title: 'Daily Data for Blood Pressure',
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('Daily_BP'));
+
+        chart.draw(data, options);
+    }
 
     // WEEKLY STATISTICS
     var normal = 0;
