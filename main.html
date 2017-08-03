@@ -21,6 +21,15 @@
 
     <!-- chart loader from google -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- email -->
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+     <script type="text/javascript">
+       (function(){
+          emailjs.init("user_HeEzoo4CZlxk95qHMu70N");
+       })();
+
+    </script>
 </head>
 <body>
 
@@ -647,7 +656,6 @@
                 normal += dailyData[i+j][1];
                 lower += dailyData[i+j][0];
                 higher += dailyData[i+j][2];
-                debugger;
 
             }
             stevec++;
@@ -668,19 +676,80 @@
     var weeklyDia = getWeeklyStats(dailyDis);
     var weeklyPulse = getWeeklyStats(dailyPulse);
     var weeklyTemperature = getWeeklyStats(dailyTemp);
-    /*console.log("msjdbJH");
-    console.log(weeklySys);
-    console.log(weeklyDia);
-    console.log(weeklyPulse);
-    console.log(weeklyTemperature);
-    debugger;*/
     
+    /**
+        ALARM SYSTEM 
+    **/
 
+    function sendEmail(template) {
+        console.log("email");
+        emailjs.send("gmail",template,{name: "9382665312", notes: "Check this out!"})
+        .then(function(response) {
+        console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
+        }, function(err) {
+        console.log("FAILED. error=", err);
+        });
+    }
 
-    // MONTHLY STATISTICS
+    function warnTheDoc(days) {
+        var high_blood_pressure = 0;
+        var low_blood_pressure = 0;
+        var data_for_one_month = 93;
+        for(var i = 0; i < data_for_one_month; ++i) {
+            for(var j = 0; j < 3; j++) {
+                
+                if (systolic_val[i+j] > 140 && diastolic_val[i+j] > 90 && pulse_rate_val[i+j] > 100) {
+                    console.log("high");
+                    high_blood_pressure++;
+                    break;                    
+                } else if (systolic_val[i+j] < 90 && diastolic_val[i+j] < 60 && pulse_rate_val[i+j] < 60) {
+                    console.log("low");
+                    low_blood_pressure++;
+                    break;
+                }
+            }
+            if (high_blood_pressure >= days) {
+                // send email to the doctor
+                // also break
+                if (days === 2) {
+                    // patient
+                    sendEmail("template_UEzwyHt7");
+                }
+                else if (days === 4) {
+                    // nurse
+                    sendEmail("template_UEzwyHt7");
+                } else if (days === 10) {
+                    // doctor
+                    sendEmail("high_blood_pressure_doctor");
+                }
+                break;
+            }
+            if (low_blood_pressure >= days) {
+                // send email to the doctor
+                // also break
+                if (days === 2) {
+                    // patient
+                    sendEmail("template_UEzwyHt7");
+                }
+                else if (days === 4) {
+                    // nurse
+                    sendEmail("template_UEzwyHt7");
+                } else if (days === 10) {
+                    // doctor
+                    sendEmail("low_blood_pressure_doctor");
+                }
+                break;
+            }
+        }
 
+    }
 
-    // 6 MONTH STATISTIC
+    // warn the patient
+    warnTheDoc(2);
+    // warn the nurse
+    warnTheDoc(4);
+    // warn the doctor
+    warnTheDoc(10);
 
     /* CHAT BOOT */
     var headID = document.getElementsByTagName("head")[0];
