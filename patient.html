@@ -114,20 +114,20 @@
             <!-- Graphs -->
             <div style="float: left; text-align: center;">
                 <h2 style="font-size: 40px;">Temperature graph</h2>
-                <div id="Temparature_Graph" style="width: 560px; height: 500px; margin-right: 50px;"></div>
+                <div id="Temparature_Graph" style="width: 1000px; height: 500px; margin-right: 50px;"></div>
             </div>
             <div style="float: left; text-align: center;">
                 <h2 style="font-size: 40px">Blood pressure graph</h2>
-                <div id="BloodPressure_Graph" style="width: 560px; height: 500px;"></div>
+                <div id="BloodPressure_Graph" style="width: 1000px; height: 500px;"></div>
             </div>
 
             <div style="float: left; text-align: center;">
                 <h2 style="font-size: 40px;">Weight graph</h2>
-                <div id="Weight_Graph" style="width: 560px; height: 500px; margin-right: 50px;"></div>
+                <div id="Weight_Graph" style="width: 1000px; height: 500px; margin-right: 50px;"></div>
             </div>
             <div style="float: left; text-align: center;">
                 <h2 style="font-size: 40px">Pulse graph</h2>
-                <div id="Pulse_Graph" style="width: 560px; height: 500px;"></div>
+                <div id="Pulse_Graph" style="width: 1000px; height: 500px;"></div>
             </div>
 
             <div style="float: left; text-align: center;">
@@ -442,11 +442,15 @@
 
         function drawChartBT() {
             var data = new google.visualization.DataTable();
-            data.addColumn("string", "year");
+            data.addColumn("string", "time");
             data.addColumn('number', 'temparature');
 
+            // can later add real measurement dates
+            var dates = ["14:49","14:51","14:55","15:01","15:14",
+                        "15:18", "16:34", "16:48", "16:58", "17:01"];
+
             for(i = 0; i < body_temperature_array.length; i++) {
-                data.addRow(["2011", Number(body_temperature_array[i])]);
+                data.addRow([dates[i], Number(body_temperature_array[i])]);
             }
             // Create and draw the visualization.
             var options = {
@@ -466,12 +470,16 @@
 
         function drawChartBP() {
             var data = new google.visualization.DataTable();
-            data.addColumn("string", "year");
+            data.addColumn("string", "time");
             data.addColumn('number', 'diastolic');
             data.addColumn('number', 'systolic');
 
+            // can later add real measurement dates
+            var dates = ["14:49","14:51","14:55","15:01","15:14",
+                        "15:18", "16:34", "16:48", "16:58", "17:00"];
+
             for(i = 0; i < diastolic_array.length; i++) {
-                data.addRow(["2011", Number(diastolic_array[i]), Number(systolic_array[i])]);
+                data.addRow([dates[i], Number(diastolic_array[i]), Number(systolic_array[i])]);
             }
             // Create and draw the visualization.
             var options = {
@@ -491,11 +499,15 @@
 
         function drawChartW() {
             var data = new google.visualization.DataTable();
-            data.addColumn("string", "year");
+            data.addColumn("string", "time");
             data.addColumn('number', 'weight');
 
+            // can later add real measurement dates
+            var dates = ["14:49","14:51","14:55","15:01","15:14",
+                        "15:18", "16:34", "16:48", "16:58", "17:01"];
+
             for(i = 0; i < weight_array.length; i++) {
-                data.addRow(["2011", Number(weight_array[i])]);
+                data.addRow([dates[i], Number(weight_array[i])]);
             }
             // Create and draw the visualization.
             var options = {
@@ -515,11 +527,15 @@
 
         function drawChartP() {
             var data = new google.visualization.DataTable();
-            data.addColumn("string", "year");
+            data.addColumn("string", "time");
             data.addColumn('number', 'pulse');
 
+            // can later add real measurement dates
+            var dates = ["14:49","14:51","14:55","15:01","15:14",
+                        "15:18", "16:34", "16:48", "16:58", "17:01"];    
+
             for(i = 0; i < pulse_array.length; i++) {
-                data.addRow(["2011", Number(pulse_array[i])]);
+                data.addRow([dates[i], Number(pulse_array[i])]);
             }
             // Create and draw the visualization.
             var options = {
