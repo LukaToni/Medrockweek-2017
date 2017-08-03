@@ -202,7 +202,7 @@ h2 {
 }
 .header-backup {
     width: 20px;
-    height: 119px;
+    /*height: 119px;*/
     background: transparent;
     margin: auto;
 }
