@@ -177,7 +177,34 @@
 				<div style="float: left; text-align: center;">
 					<h2 style="font-size: 40px">Pulse graph</h2>
 					<div id="Pulse_Graph" style="width: 560px; height: 500px;"></div>
-				</div>
+                </div>
+                
+                <div style="float: left; text-align: center;">
+                    <label><h2>Daily Pulse graph</h2></label>
+                    <div id="Daily_Pulse" style="width: 700px; height: 500px;"></div>
+                </div>
+                <div style="float: left; text-align: center;">
+                    <label><h2>Daily Blood Pressure graph</h2></label>
+                    <div id="Daily_BP" style="width: 700px; height: 500px;"></div>
+                </div>
+
+                <div style="float: left; text-align: center;">
+                    <h2>Weekly Pulse graph</h2>
+                    <div id="Weekly_Pulse" style="width: 700px; height: 500px;"></div>
+                </div>
+                <div style="float: right; text-align: center;">
+                    <h2>Weekly Blood Pressure graph</h2>
+                    <div id="Weekly_BP" style="width: 700px; height: 500px;"></div>
+                </div>
+
+                <div style="float: left; text-align: center;">
+                    <h2>Monthly Pulse graph</h2>
+                    <div id="Monthly_Pulse" style="width: 700px; height: 500px;"></div>
+                </div>
+                <div style="float: right; text-align: center;">
+                    <h2>Monthly Blood Pressure graph</h2>
+                    <div id="Monthly_BP" style="width: 700px; height: 500px;"></div>
+                </div>
 
 			</div>
 		</div>
@@ -766,12 +793,12 @@
                 //console.log("catch")
             }
             try {
-                temperature_body_val[i] = json_object_pulse[i][0];
+                temperature_body_val[i] = json_object_temp[i][0];
             } catch(err) {
                 //console.log("catch")
             }
             try {
-                pulse_rate_val[i] = json_object_temp[i][0];
+                pulse_rate_val[i] = json_object_pulse[i][0];
             } catch(err) {
                 //console.log("catch")
             }
@@ -873,49 +900,55 @@
     var percentageDayDia = getDailyPercentage(dailyDis);
     var percentageDayPulse = getDailyPercentage(dailyPulse);
 
-    // initialization of google charts
+        // initialization of google charts
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChartDailyPulse);
     google.charts.setOnLoadCallback(drawChartDailyBP);
 
     function drawChartDailyPulse() {
         var data = google.visualization.arrayToDataTable([
-            ['Day', 'Low', 'Normal', 'High'],
-            ['Mon', percentageDayPulse[0][0], percentageDayPulse[0][1], percentageDayPulse[0][2]],
-            ['Tue', percentageDayPulse[1][0], percentageDayPulse[1][1], percentageDayPulse[1][2]],
-            ['Wed', percentageDayPulse[2][0], percentageDayPulse[2][1], percentageDayPulse[2][2]],
-            ['Thu', percentageDayPulse[3][0], percentageDayPulse[3][1], percentageDayPulse[3][2]],
-            ['Fri', percentageDayPulse[4][0], percentageDayPulse[4][1], percentageDayPulse[4][2]],
-            ['Sat', percentageDayPulse[5][0], percentageDayPulse[5][1], percentageDayPulse[5][2]],
-            ['Sun', percentageDayPulse[6][0], percentageDayPulse[6][1], percentageDayPulse[6][2]]
-        ]);
+          ['Pulse', 'Procentage'],
+          ['Low', percentageDayPulse[0][0]],
+          ['Normal', percentageDayPulse[0][1]],
+          ['High', percentageDayPulse[0][2]]
+        ]);    
 
         var options = {
-            title: 'Daily Data for Pulse',
+          title: 'Daily Data for Pulse',
         };
 
-        var chart = new google.visualization.ColumnChart(document.getElementById('Daily_Pulse'));
+        var chart = new google.visualization.PieChart(document.getElementById('Daily_Pulse'));
 
         chart.draw(data, options);
     }
 
     function drawChartDailyBP() {
+
+        var l = 0, n = 0, h = 0;
+        for(var i=0; i < 3; i++) {
+            if(systolic_val[0][i] < 90 && diastolic_val[0][i] < 60) {
+                // low 
+                l++;  
+            } else if(systolic_val[0][i] > 140 && diastolic_val[0][i] > 90) {
+                // high
+                h++;
+            } else {
+                n++;
+            }    
+        }
+
         var data = google.visualization.arrayToDataTable([
-            ['Day', 'Low_Diastolic', 'Normal_Diastolic', 'High_Diastolic', 'Low_Systolic', 'Normal_Systolic', 'High_Systolic'],
-            ['Mon', percentageDayDia[0][0], percentageDayDia[0][1], percentageDayDia[0][2], percentageDaySys[0][0], percentageDaySys[0][1], percentageDaySys[0][2]],
-            ['Tue', percentageDayDia[1][0], percentageDayDia[1][1], percentageDayDia[1][2], percentageDaySys[1][0], percentageDaySys[1][1], percentageDaySys[1][2]],
-            ['Wed', percentageDayDia[2][0], percentageDayDia[2][1], percentageDayDia[2][2], percentageDaySys[2][0], percentageDaySys[2][1], percentageDaySys[2][2]],
-            ['Thu', percentageDayDia[3][0], percentageDayDia[3][1], percentageDayDia[3][2], percentageDaySys[3][0], percentageDaySys[3][1], percentageDaySys[3][2]],
-            ['Fri', percentageDayDia[4][0], percentageDayDia[4][1], percentageDayDia[4][2], percentageDaySys[4][0], percentageDaySys[4][1], percentageDaySys[4][2]],
-            ['Sat', percentageDayDia[5][0], percentageDayDia[5][1], percentageDayDia[5][2], percentageDaySys[5][0], percentageDaySys[5][1], percentageDaySys[5][2]],
-            ['Sun', percentageDayDia[6][0], percentageDayDia[6][1], percentageDayDia[6][2], percentageDaySys[6][0], percentageDaySys[6][1], percentageDaySys[6][2]]
-        ]);
+          ['Pulse', 'Procentage'],
+          ['Low', l*100/3],
+          ['Normal', n*100/3],
+          ['High', h*100/3]
+        ]);      
 
         var options = {
-            title: 'Daily Data for Blood Pressure',
+          title: 'Daily Data for Blood Pressure',
         };
 
-        var chart = new google.visualization.ColumnChart(document.getElementById('Daily_BP'));
+        var chart = new google.visualization.PieChart(document.getElementById('Daily_BP'));
 
         chart.draw(data, options);
     }
@@ -957,13 +990,119 @@
         return weeklyStats;
     }
 
-    // TODO: DATA FOR EDO
-    console.log(dailySys);
+    // data for graphs
     var weeklySys = getWeeklyStats(dailySys);
-    console.log(weeklySys);
     var weeklyDia = getWeeklyStats(dailyDis);
     var weeklyPulse = getWeeklyStats(dailyPulse);
     var weeklyTemperature = getWeeklyStats(dailyTemp);
+
+    // calls for graphs
+    google.charts.setOnLoadCallback(drawChartWeekPulse);
+    google.charts.setOnLoadCallback(drawChartWeekBP);
+    google.charts.setOnLoadCallback(drawChartMonthPulse);
+    google.charts.setOnLoadCallback(drawChartMonthBP);
+
+    function drawChartWeekPulse() {
+        var data = google.visualization.arrayToDataTable([
+          ['Pulse', 'Procentage'],
+          ['Low', weeklyPulse[0][0]],
+          ['Normal', weeklyPulse[0][1]],
+          ['High', weeklyPulse[0][2]]
+        ]);    
+
+        var options = {
+          title: 'Weekly Data for Pulse',
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('Weekly_Pulse'));
+
+        chart.draw(data, options);
+    }
+
+    function drawChartWeekBP() {
+        var l = 0, n = 0, h = 0;
+        for(var i = 0; i < 21; i++) { 
+            if(systolic_val[i] < 90 && diastolic_val[i] < 60) {
+                // low 
+                l++;  
+            } else if(systolic_val[i] > 140 && diastolic_val[i] > 90) {
+                // high
+                h++;
+            } else {
+                n++;
+            }  
+        }   
+
+        var data = google.visualization.arrayToDataTable([
+          ['Blood pressure', 'Procentage'],
+          ['Low', l*100/21],
+          ['Normal', n*100/21],
+          ['High', h*100/21]
+        ]);    
+
+        var options = {
+          title: 'Weekly Data for Blood Pressure',
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('Weekly_BP'));
+
+        chart.draw(data, options);
+    }
+
+    // MONTHLY STATISTICS
+    function drawChartMonthPulse() {
+        var l = 0, n = 0, h = 0;
+        for(var i = 0; i < 30; i++) { 
+            l += dailyPulse[i][0];
+            n += dailyPulse[i][1];
+            h += dailyPulse[i][2];
+        } 
+
+        var data = google.visualization.arrayToDataTable([
+          ['Pulse', 'Procentage'],
+          ['Low', l*100/30],
+          ['Normal', n*100/30],
+          ['High', h*100/30]
+        ]);    
+
+        var options = {
+          title: 'Monthly Data for Pulse',
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('Monthly_Pulse'));
+
+        chart.draw(data, options);
+    }
+
+    function drawChartMonthBP() {
+        var l = 0, n = 0, h = 0;
+        for(var i = 0; i < 90; i++) { 
+            if(systolic_val[i] < 90 && diastolic_val[i] < 60) {
+                // low 
+                l++;  
+            } else if(systolic_val[i] > 140 && diastolic_val[i] > 90) {
+                // high
+                h++;
+            } else {
+                n++;
+            }  
+        }   
+
+        var data = google.visualization.arrayToDataTable([
+          ['Blood pressure', 'Procentage'],
+          ['Low', l*100/90],
+          ['Normal', n*100/90],
+          ['High', h*100/90]
+        ]);    
+
+        var options = {
+          title: 'Monthly Data for Blood Pressure',
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('Monthly_BP'));
+
+        chart.draw(data, options);
+    }
 
     /**
      ALARM SYSTEM
