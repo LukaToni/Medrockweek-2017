@@ -1,91 +1,379 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Think!EHR Rest Example</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>DOCTOR - Responsive HTML &amp; Bootstrap Template</title>
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=BenchNine:300,400,700' rel='stylesheet' type='text/css'>
+	<script src="js/modernizr.js"></script>
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
 
-    <!-- jQuery 3.2.1 -->
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+	<!-- d3.js -->
+	<script src="https://d3js.org/d3.v4.min.js"></script>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- chart loader from google -->
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<!-- email -->
+	<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+	<script type="text/javascript">
+        (function(){
+            emailjs.init("user_HeEzoo4CZlxk95qHMu70N");
+        })();
 
-    <!-- d3.js -->
-    <script src="https://d3js.org/d3.v4.min.js"></script>
+	</script>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-    <!-- chart loader from google -->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-    <!-- email -->
-    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-     <script type="text/javascript">
-       (function(){
-          emailjs.init("user_HeEzoo4CZlxk95qHMu70N");
-       })();
-
-    </script>
 </head>
 <body>
 
-    <div id="header"></div>
-    <div id="result"></div>
+	<!-- ====================================================
+	header section -->
+	<header class="top-header">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-5 header-logo">
+					<img src="img/logo.png" alt="" class="img-responsive logo" style="width: 223px;">
+				</div>
 
-    <h2 id="ehrid">EHRID: </h2>
+				<div class="col-md-7">
+					<nav class="navbar navbar-default">
+					  <div class="container-fluid nav-bar">
+					    <!-- Brand and toggle get grouped for better mobile display -->
+					    <div class="navbar-header">
+					      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					        <span class="sr-only">Toggle navigation</span>
+					        <span class="icon-bar"></span>
+					        <span class="icon-bar"></span>
+					        <span class="icon-bar"></span>
+					      </button>
+					    </div>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Temperature [°C]</th>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Systolic [mm[Hg]]</th>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Diastolic [mm[Hg]]</th>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Weight [kg]</th>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Pulse [/min]</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="temperature_result" ></th>
-            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="blood_pressure_result_systolic"></td>
-            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="blood_pressure_result_diastolic"></td>
-            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="weight_result"></td>
-            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="pulse_result"></td>
-        </tr>
-        </tbody>
-    </table>
-    <!-- Graphs -->
-    <div style="float: left; text-align: center;">
-        <h2>Temperature graph</h2>
-        <div id="Temparature_Graph" style="width: 700px; height: 500px;"></div>
-    </div>
-    <div style="float: left; text-align: center;">
-        <h2>Blood pressure graph</h2>
-        <div id="BloodPressure_Graph" style="width: 700px; height: 500px;"></div>
-    </div>
+					    <!-- Collect the nav links, forms, and other content for toggling -->
+					    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-    <div style="float: left; text-align: center;">
-        <h2>Weight graph</h2>
-        <div id="Weight_Graph" style="width: 700px; height: 500px;"></div>
-    </div>
-    <div style="float: left; text-align: center;">
-        <h2>Pulse graph</h2>
-        <div id="Pulse_Graph" style="width: 700px; height: 500px;"></div>
-    </div>
-    
-    <div style="float: left; text-align: center;">
-        <label><h2>Daily Pulse graph</h2></label>
-        <div id="Daily_Pulse" style="width: 700px; height: 500px;"></div>
-    </div>
-    <div style="float: left; text-align: center;">
-        <label><h2>Daily Blood Pressure graph</h2></label>
-        <div id="Daily_BP" style="width: 700px; height: 500px;"></div>
-    </div>
+					      <ul class="nav navbar-nav navbar-right" style="width: 700px">
+					        <li><a class="menu active" href="#home" >Home</a></li>
+					        <li><a class="menu" href="#about">about us</a></li>
+					        <li><a class="menu" href="#service">our services </a></li>
+					        <li><a class="menu" href="#team">our team</a></li>
+					        <li><a class="menu" href="#contact"> contact us</a></li>
+						  	<li><a class="menu" href="index.html"> logout</a></li>
+					      </ul>
+					    </div><!-- /navbar-collapse -->
+					  </div><!-- / .container-fluid -->
+					</nav>
+				</div>
+			</div>
+		</div>
+	</header> <!-- end of header area -->
 
+	<section class="slider" id="home">
+		<div class="container-fluid">
+			<div class="row">
+			    <div id="carouselHacked" class="carousel slide carousel-fade" data-ride="carousel">
+					<div class="header-backup"></div>
+			        <!-- Wrapper for slides -->
+			        <div class="carousel-inner" role="listbox">
+			            <div class="item active">
+			            	<img src="img/slide-one.jpg" alt="">
+			                <div class="carousel-caption">
+		               			<h1>providing</h1>
+		               			<p>highquality service for men &amp; women</p>
+		               			<button>learn more</button>
+			                </div>
+			            </div>
+			            <div class="item">
+			            	<img src="img/slide-two.jpg" alt="">
+			                <div class="carousel-caption">
+		               			<h1>providing</h1>
+		               			<p>highquality service for men &amp; women</p>
+		               			<button>learn more</button>
+			                </div>
+			            </div>
+			            <div class="item">
+			            	<img src="img/slide-three.jpg" alt="">
+			                <div class="carousel-caption">
+		               			<h1>providing</h1>
+		               			<p>highquality service for men &amp; women</p>
+		               			<button>learn more</button>
+			                </div>
+			            </div>
+			            <div class="item">
+			            	<img src="img/slide-four.jpg" alt="">
+			                <div class="carousel-caption">
+		               			<h1>providing</h1>
+		               			<p>highquality service for men &amp; women</p>
+		               			<button>learn more</button>
+			                </div>
+			            </div>
+			        </div>
+			        <!-- Controls -->
+			        <a class="left carousel-control" href="#carouselHacked" role="button" data-slide="prev">
+			            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			            <span class="sr-only">Previous</span>
+			        </a>
+			        <a class="right carousel-control" href="#carouselHacked" role="button" data-slide="next">
+			            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			            <span class="sr-only">Next</span>
+			        </a>
+			    </div>
+			</div>
+		</div>
+	</section><!-- end of slider section -->
+
+	<!-- about section -->
+	<section class="about text-center" id="about">
+		<div class="container">
+			<div class="row">
+				<br/><br/><br/>
+				<h2>about us</h2>
+				<!--<div id="header"></div>-->
+				<!--<div id="result"></div>-->
+				<!--<h2 id="ehrid"></h2>-->
+
+				<table class="table" style="background: white">
+					<thead>
+					<tr>
+						<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Temperature [°C]</th>
+						<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Systolic [mm[Hg]]</th>
+						<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Diastolic [mm[Hg]]</th>
+						<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Weight [kg]</th>
+						<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Pulse [/min]</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="temperature_result" ></th>
+						<td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="blood_pressure_result_systolic"></td>
+						<td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="blood_pressure_result_diastolic"></td>
+						<td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="weight_result"></td>
+						<td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="pulse_result"></td>
+					</tr>
+					</tbody>
+				</table>
+				<!-- Graphs -->
+				<div style="float: left; text-align: center;">
+					<h2 style="font-size: 40px;">Temperature graph</h2>
+					<div id="Temparature_Graph" style="width: 560px; height: 500px; margin-right: 50px;"></div>
+				</div>
+				<div style="float: left; text-align: center;">
+					<h2 style="font-size: 40px">Blood pressure graph</h2>
+					<div id="BloodPressure_Graph" style="width: 560px; height: 500px;"></div>
+				</div>
+
+				<div style="float: left; text-align: center;">
+					<h2 style="font-size: 40px;">Weight graph</h2>
+					<div id="Weight_Graph" style="width: 560px; height: 500px; margin-right: 50px;"></div>
+				</div>
+				<div style="float: left; text-align: center;">
+					<h2 style="font-size: 40px">Pulse graph</h2>
+					<div id="Pulse_Graph" style="width: 560px; height: 500px;"></div>
+				</div>
+
+			</div>
+		</div>
+	</section><!-- end of about section -->
+
+
+	<!-- service section starts here -->
+	<section class="service text-center" id="service">
+		<div class="container">
+			<div class="row">
+				<h2>our services</h2><br/><br/><br/><br/>
+				<h4>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</h4>
+				<div class="col-md-3 col-sm-6">
+					<div class="single-service">
+						<div class="single-service-img">
+							<div class="service-img">
+								<img class="heart img-responsive" src="img/service1.png" alt="">
+							</div>
+						</div>
+
+						<h3>Heart problem</h3>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="single-service">
+						<div class="single-service-img">
+							<div class="service-img">
+								<img class="brain img-responsive" src="img/service2.png" alt="">
+							</div>
+						</div>
+						<h3>brain problem</h3>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="single-service">
+						<div class="single-service-img">
+							<div class="service-img">
+								<img class="knee img-responsive" src="img/service3.png" alt="">
+							</div>
+						</div>
+						<h3>knee problem</h3>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="single-service">
+						<div class="single-service-img">
+							<div class="service-img">
+								<img class="bone img-responsive" src="img/service4.png" alt="">
+							</div>
+						</div>
+						<h3>human bones problem</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!-- end of service section -->
+
+
+	<!-- team section -->
+	<section class="team" id="team">
+		<div class="container">
+			<div class="row">
+				<div class="team-heading text-center">
+					<h2>our team</h2><br/><br/>
+				</div>
+				<div class="col-md-2 single-member col-sm-4">
+					<div class="person">
+						<img class="img-responsive" src="img/member1.jpg" alt="member-1">
+					</div>
+					<div class="person-detail">
+						<div class="arrow-bottom"></div>
+						<h3>Dr. M. Weiner, M.D.</h3>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+					</div>
+				</div>
+				<div class="col-md-2 single-member col-sm-4">
+					<div class="person-detail">
+						<div class="arrow-top"></div>
+						<h3>Dr. Danielle, M.D.</h3>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+					</div>
+					<div class="person">
+						<img class="img-responsive" src="img/member2.jpg" alt="member-2">
+					</div>
+				</div>
+				<div class="col-md-2 single-member col-sm-4">
+					<div class="person">
+						<img class="img-responsive" src="img/member3.jpg" alt="member-3">
+					</div>
+					<div class="person-detail">
+						<div class="arrow-bottom"></div>
+						<h3>Dr. Caitlin, M.D.</h3>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+					</div>
+				</div>
+				<div class="col-md-2 single-member col-sm-4">
+					<div class="person-detail">
+						<div class="arrow-top"></div>
+						<h3>Dr. Joseph, M.D.</h3>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+					</div>
+					<div class="person">
+						<img class="img-responsive" src="img/member4.jpg" alt="member-4">
+					</div>
+				</div>
+				<div class="col-md-2 single-member col-sm-4">
+					<div class="person">
+						<img class="img-responsive" src="img/member5.jpg" alt="member-5">
+					</div>
+					<div class="person-detail">
+						<div class="arrow-bottom"></div>
+						<h3>Dr. Michael, M.D.</h3>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+					</div>
+				</div>
+				<div class="col-md-2 single-member col-sm-4">
+					<div class="person-detail">
+						<div class="arrow-top"></div>
+						<h3>Dr. Hasina, M.D.</h3>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+					</div>
+					<div class="person">
+						<img class="img-responsive" src="img/member6.jpg" alt="member-5">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!-- end of team section -->
+
+	<!-- map section -->
+	<div class="api-map" id="contact">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12 map" id="map"></div>
+			</div>
+		</div>
+	</div><!-- end of map section -->
+
+	<!-- contact section starts here -->
+	<section class="contact">
+		<div class="container">
+			<div class="row">
+				<div class="contact-caption clearfix">
+					<div class="contact-heading text-center">
+						<h2>contact us</h2>
+					</div>
+					<div class="col-md-5 contact-info text-left">
+						<h3>contact information</h3>
+						<div class="info-detail">
+							<ul><li><i class="fa fa-calendar"></i><span>Monday - Friday:</span> 9:30 AM to 6:30 PM</li></ul>
+							<ul><li><i class="fa fa-map-marker"></i><span>Address:</span> 123 Some Street , London, UK, CP 123</li></ul>
+							<ul><li><i class="fa fa-phone"></i><span>Phone:</span> (032) 987-1235</li></ul>
+							<ul><li><i class="fa fa-fax"></i><span>Fax:</span> (123) 984-1234</li></ul>
+							<ul><li><i class="fa fa-envelope"></i><span>Email:</span> info@doctor.com</li></ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-md-offset-1 contact-form">
+						<h3>leave us a message</h3>
+
+						<form class="form">
+							<input class="name" type="text" placeholder="Name">
+							<input class="email" type="email" placeholder="Email">
+							<input class="phone" type="text" placeholder="Phone No:">
+							<textarea class="message" name="message" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+							<input class="submit-btn" type="submit" value="SUBMIT">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!-- end of contact section -->
+
+	<!-- footer starts here -->
+	<footer class="footer clearfix">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-6 footer-para" style="text-align: center">
+					<p>&copy;lukatoni All right reserved</p>
+				</div>
+				<div class="col-xs-6 text-right">
+					<a href="https://facebook.com/warnadoc"><i class="fa fa-facebook"></i></a>
+					<a href="https://twitter.com/warnadoc"><i class="fa fa-twitter"></i></a>
+					<a href=""><i class="fa fa-skype"></i></a>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<!-- script tags
+	============================================================= -->
+	<script src="js/jquery-2.1.1.js"></script>
+	<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+	<script src="js/gmaps.js"></script>
+	<script src="js/smoothscroll.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/custom.js"></script>
 </body>
 </html>
 
@@ -134,41 +422,41 @@
     for (i = 0; i < 3; ++i) {
 
         try {
-            /* UPPER PRESSURE value 140*/
-            systolic_value = json_obj.hits[i]._source.qcl_json_data.records[0].systolic.value;   
+			/* UPPER PRESSURE value 140*/
+            systolic_value = json_obj.hits[i]._source.qcl_json_data.records[0].systolic.value;
         } catch(err) {
             //
         }
 
         try {
-            /* DIASTOLIC value 80*/
+			/* DIASTOLIC value 80*/
             diastolic_value = json_obj.hits[i]._source.qcl_json_data.records[0].diastolic.value;
         } catch(err) {
             //
         }
 
         try {
-            /* MIDDLE PRESSURE value 100*/
+			/* MIDDLE PRESSURE value 100*/
             pressure_middle_value = json_obj.hits[i]._source.qcl_json_data.records[0].meanArterialPressure.value;
         } catch(err) {
             //
         }
 
         try {
-            /* WEIGHT*/
-            weight_value = json_obj.hits[i]._source.qcl_json_data.records[0].weight.value;    
+			/* WEIGHT*/
+            weight_value = json_obj.hits[i]._source.qcl_json_data.records[0].weight.value;
         } catch(err) {
             //
         }
 
         try {
-            temperature_body_value = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureBody.value;    
+            temperature_body_value = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureBody.value;
         } catch(err) {
             //
         }
-                 
+
         try {
-            temperature_ambient_value = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureAmbient.value; 
+            temperature_ambient_value = json_obj.hits[i]._source.qcl_json_data.records[0].temperatureAmbient.value;
         } catch(err) {
             //
         }
@@ -178,7 +466,7 @@
         } catch(err) {
             //
         }
-        
+
         try {
             measurement_time = json_obj.hits[i]._source.qcl_json_data.deviceDetails.measurementTime.value.toDateString();
         } catch(err) {
@@ -187,7 +475,7 @@
         // windows.$json.hits[0].sourcce.qcl_json_data.deviceDetails.measurementTime.value
     }
 
-    /* POST DATA TO EHR */
+	/* POST DATA TO EHR */
     var compositionData = {
         "ctx/time": measurement_time,
         "ctx/language": "en",
@@ -209,16 +497,16 @@
     };
 
     $.ajaxSetup({
-    headers: {
-        "Authorization": authorization
-    }
+        headers: {
+            "Authorization": authorization
+        }
     });
 
 
-    /* EHRID */
+	/* EHRID */
     $("#ehrid").append( ehrId );
 
-    /* TEMPERATURE */
+	/* TEMPERATURE */
     $.ajax({
         url: baseUrl + "/composition?" + $.param(queryParams),
         type: 'POST',
@@ -233,45 +521,45 @@
 
     // POST DATA TO THER
 
-    /*$.ajaxSetup({
-    headers: {
-        "Authorization": authorization
-    }
-    });
-    $.ajax({
-        url: baseUrl + "/ehr",
-        type: 'POST',
-        success: function (data) {
-            var ehrId = data.ehrId;
-            $("#header").html("EHR: " + ehrId);
+	/*$.ajaxSetup({
+	 headers: {
+	 "Authorization": authorization
+	 }
+	 });
+	 $.ajax({
+	 url: baseUrl + "/ehr",
+	 type: 'POST',
+	 success: function (data) {
+	 var ehrId = data.ehrId;
+	 $("#header").html("EHR: " + ehrId);
 
-            // build party data
-            var partyData = {
-                firstNames: "Edo",
-                lastNames: "Lj",
-                dateOfBirth: "1994-7-18T19:30",
-                partyAdditionalInfo: [
-                    {
-                        key: "ehrId",
-                        value: ehrId
-                    }
-                ]
-            };
-            $.ajax({
-                url: baseUrl + "/demographics/party",
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(partyData),
-                success: function (party) {
-                    if (party.action == 'CREATE') {
-                        $("#result").html("Created: " + party.meta.href);
-                    }
-                }
-            });
-        }
-    });*/
+	 // build party data
+	 var partyData = {
+	 firstNames: "Edo",
+	 lastNames: "Lj",
+	 dateOfBirth: "1994-7-18T19:30",
+	 partyAdditionalInfo: [
+	 {
+	 key: "ehrId",
+	 value: ehrId
+	 }
+	 ]
+	 };
+	 $.ajax({
+	 url: baseUrl + "/demographics/party",
+	 type: 'POST',
+	 contentType: 'application/json',
+	 data: JSON.stringify(partyData),
+	 success: function (party) {
+	 if (party.action == 'CREATE') {
+	 $("#result").html("Created: " + party.meta.href);
+	 }
+	 }
+	 });
+	 }
+	 });*/
 
-    /* READ DATA FROM EHR */
+	/* READ DATA FROM EHR */
     $.ajax({
         url: baseUrl + "/view/" + ehrId + "/body_temperature",
         type: 'GET',
@@ -285,12 +573,12 @@
                 $("#temperature_result").append(res[i].temperature + "</br>");
                 body_temperature_array.push(res[i].temperature);
             }
-        
+
             drawGraphBT(body_temperature_array);
         }
     });
 
-    /* BLOOD */
+	/* BLOOD */
     $.ajax({
         url: baseUrl + "/view/" + ehrId + "/blood_pressure",
         type: 'GET',
@@ -305,13 +593,13 @@
                 $("#blood_pressure_result_diastolic").append(res[i].diastolic + "</br>");
                 systolic_array.push(res[i].systolic);
                 diastolic_array.push(res[i].diastolic);
-            }    
+            }
 
             drawGraphBP(systolic_array, diastolic_array);
         }
     });
 
-    /* WEIGHT */
+	/* WEIGHT */
     $.ajax({
         url: baseUrl + "/view/" + ehrId + "/weight",
         type: 'GET',
@@ -324,12 +612,12 @@
                 $("#weight_result").append(res[i].weight + "</br>");
                 weight_array.push(res[i].weight);
             }
-        
-        drawGraphW(weight_array);
+
+            drawGraphW(weight_array);
         }
     });
 
-    /* PULSE */
+	/* PULSE */
     $.ajax({
         url: baseUrl + "/view/" + ehrId + "/pulse",
         type: 'GET',
@@ -343,7 +631,7 @@
                 pulse_array.push(res[i].pulse);
             }
 
-        drawGraphP(pulse_array);    
+            drawGraphP(pulse_array);
         }
     });
 
@@ -394,7 +682,7 @@
 
             chart.draw(data, options);
         }
-    } 
+    }
 
     function drawGraphW(weight_array) {
         google.charts.load('current', {'packages':['corechart']});
@@ -418,7 +706,7 @@
 
             chart.draw(data, options);
         }
-    } 
+    }
 
     function drawGraphP(pulse_array) {
         google.charts.load('current', {'packages':['corechart']});
@@ -442,9 +730,9 @@
 
             chart.draw(data, options);
         }
-    } 
+    }
 
-    /*read data from JSON */
+	/*read data from JSON */
     var url_dia = 'diastolic.json';
     var url_sys = 'systolic.json';
     var url_pulse = 'pulse.json';
@@ -464,26 +752,26 @@
     var diastolic_val = new Array(json_object_dia_len);
     var temperature_body_val = new Array(json_object_pulse_len);
     var pulse_rate_val = new Array(json_object_temp_len);
-    
+
     function getDataFromJSON(length) {
         for (i = 0; i < length; ++i) {
-            try { 
-                systolic_val[i] = json_object_sys[i][0]; 
+            try {
+                systolic_val[i] = json_object_sys[i][0];
             } catch(err) {
                 //console.log("catch")
             }
-            try { 
-                diastolic_val[i] = json_object_dia[i][0]; 
+            try {
+                diastolic_val[i] = json_object_dia[i][0];
             } catch(err) {
                 //console.log("catch")
             }
-            try { 
-                temperature_body_val[i] = json_object_pulse[i][0]; 
+            try {
+                temperature_body_val[i] = json_object_pulse[i][0];
             } catch(err) {
                 //console.log("catch")
             }
-            try { 
-                pulse_rate_val[i] = json_object_temp[i][0]; 
+            try {
+                pulse_rate_val[i] = json_object_temp[i][0];
             } catch(err) {
                 //console.log("catch")
             }
@@ -520,11 +808,11 @@
                 } else {
                     high++;
                 }
-            }                
-                days[i] = [];
-                days[i][0] = low;
-                days[i][1] = normal;
-                days[i][2] = high;
+            }
+            days[i] = [];
+            days[i][0] = low;
+            days[i][1] = normal;
+            days[i][2] = high;
         }
         return days;
     }
@@ -540,44 +828,44 @@
 
         for(var i = 0; i < dailyStats.length; ++i) {
             dailyStats[i] = new Array(2);
-                if (dailyData[i][0] === 0) {
-                    dailyStats[i][0] = 0;
-                } 
-                if (dailyData[i][0] === 1) {
-                    dailyStats[i][0] = 1/3*100;
-                } 
-                if (dailyData[i][0] === 2) {
-                    dailyStats[i][0] = 2/3*100;
-                } 
-                if (dailyData[i][0] === 3) {
-                    dailyStats[i][0] = 100;
-                } 
-                if (dailyData[i][1] === 0) {
-                    dailyStats[i][1] = 0;
-                } 
-                if (dailyData[i][1] === 1) {
-                    dailyStats[i][1] = 1/3*100;
-                } 
-                if (dailyData[i][1] === 2) {
-                    dailyStats[i][1] = 2/3*100;
-                } 
-                if (dailyData[i][1] === 3) {
-                    dailyStats[i][1] = 100;
-                } 
-                if (dailyData[i][2] === 0) {
-                    dailyStats[i][2] = 0;
-                } 
-                if (dailyData[i][2] === 1) {
-                    dailyStats[i][2] = 1/3*100;
-                } 
-                if (dailyData[i][2] === 2) {
-                    dailyStats[i][2] = 2/3*100;
-                } 
-                if (dailyData[i][2] === 3) {
-                    dailyStats[i][2] = 100;
-                }
+            if (dailyData[i][0] === 0) {
+                dailyStats[i][0] = 0;
             }
-        return dailyStats;               
+            if (dailyData[i][0] === 1) {
+                dailyStats[i][0] = 1/3*100;
+            }
+            if (dailyData[i][0] === 2) {
+                dailyStats[i][0] = 2/3*100;
+            }
+            if (dailyData[i][0] === 3) {
+                dailyStats[i][0] = 100;
+            }
+            if (dailyData[i][1] === 0) {
+                dailyStats[i][1] = 0;
+            }
+            if (dailyData[i][1] === 1) {
+                dailyStats[i][1] = 1/3*100;
+            }
+            if (dailyData[i][1] === 2) {
+                dailyStats[i][1] = 2/3*100;
+            }
+            if (dailyData[i][1] === 3) {
+                dailyStats[i][1] = 100;
+            }
+            if (dailyData[i][2] === 0) {
+                dailyStats[i][2] = 0;
+            }
+            if (dailyData[i][2] === 1) {
+                dailyStats[i][2] = 1/3*100;
+            }
+            if (dailyData[i][2] === 2) {
+                dailyStats[i][2] = 2/3*100;
+            }
+            if (dailyData[i][2] === 3) {
+                dailyStats[i][2] = 100;
+            }
+        }
+        return dailyStats;
     }
 
     // daily data
@@ -592,18 +880,18 @@
 
     function drawChartDailyPulse() {
         var data = google.visualization.arrayToDataTable([
-          ['Day', 'Low', 'Normal', 'High'],
-          ['Mon', percentageDayPulse[0][0], percentageDayPulse[0][1], percentageDayPulse[0][2]],
-          ['Tue', percentageDayPulse[1][0], percentageDayPulse[1][1], percentageDayPulse[1][2]],
-          ['Wed', percentageDayPulse[2][0], percentageDayPulse[2][1], percentageDayPulse[2][2]],
-          ['Thu', percentageDayPulse[3][0], percentageDayPulse[3][1], percentageDayPulse[3][2]],
-          ['Fri', percentageDayPulse[4][0], percentageDayPulse[4][1], percentageDayPulse[4][2]],
-          ['Sat', percentageDayPulse[5][0], percentageDayPulse[5][1], percentageDayPulse[5][2]],
-          ['Sun', percentageDayPulse[6][0], percentageDayPulse[6][1], percentageDayPulse[6][2]]
-        ]);    
+            ['Day', 'Low', 'Normal', 'High'],
+            ['Mon', percentageDayPulse[0][0], percentageDayPulse[0][1], percentageDayPulse[0][2]],
+            ['Tue', percentageDayPulse[1][0], percentageDayPulse[1][1], percentageDayPulse[1][2]],
+            ['Wed', percentageDayPulse[2][0], percentageDayPulse[2][1], percentageDayPulse[2][2]],
+            ['Thu', percentageDayPulse[3][0], percentageDayPulse[3][1], percentageDayPulse[3][2]],
+            ['Fri', percentageDayPulse[4][0], percentageDayPulse[4][1], percentageDayPulse[4][2]],
+            ['Sat', percentageDayPulse[5][0], percentageDayPulse[5][1], percentageDayPulse[5][2]],
+            ['Sun', percentageDayPulse[6][0], percentageDayPulse[6][1], percentageDayPulse[6][2]]
+        ]);
 
         var options = {
-          title: 'Daily Data for Pulse',
+            title: 'Daily Data for Pulse',
         };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('Daily_Pulse'));
@@ -613,18 +901,18 @@
 
     function drawChartDailyBP() {
         var data = google.visualization.arrayToDataTable([
-          ['Day', 'Low_Diastolic', 'Normal_Diastolic', 'High_Diastolic', 'Low_Systolic', 'Normal_Systolic', 'High_Systolic'],
-          ['Mon', percentageDayDia[0][0], percentageDayDia[0][1], percentageDayDia[0][2], percentageDaySys[0][0], percentageDaySys[0][1], percentageDaySys[0][2]],
-          ['Tue', percentageDayDia[1][0], percentageDayDia[1][1], percentageDayDia[1][2], percentageDaySys[1][0], percentageDaySys[1][1], percentageDaySys[1][2]],
-          ['Wed', percentageDayDia[2][0], percentageDayDia[2][1], percentageDayDia[2][2], percentageDaySys[2][0], percentageDaySys[2][1], percentageDaySys[2][2]],
-          ['Thu', percentageDayDia[3][0], percentageDayDia[3][1], percentageDayDia[3][2], percentageDaySys[3][0], percentageDaySys[3][1], percentageDaySys[3][2]],
-          ['Fri', percentageDayDia[4][0], percentageDayDia[4][1], percentageDayDia[4][2], percentageDaySys[4][0], percentageDaySys[4][1], percentageDaySys[4][2]],
-          ['Sat', percentageDayDia[5][0], percentageDayDia[5][1], percentageDayDia[5][2], percentageDaySys[5][0], percentageDaySys[5][1], percentageDaySys[5][2]],
-          ['Sun', percentageDayDia[6][0], percentageDayDia[6][1], percentageDayDia[6][2], percentageDaySys[6][0], percentageDaySys[6][1], percentageDaySys[6][2]]
-        ]);    
+            ['Day', 'Low_Diastolic', 'Normal_Diastolic', 'High_Diastolic', 'Low_Systolic', 'Normal_Systolic', 'High_Systolic'],
+            ['Mon', percentageDayDia[0][0], percentageDayDia[0][1], percentageDayDia[0][2], percentageDaySys[0][0], percentageDaySys[0][1], percentageDaySys[0][2]],
+            ['Tue', percentageDayDia[1][0], percentageDayDia[1][1], percentageDayDia[1][2], percentageDaySys[1][0], percentageDaySys[1][1], percentageDaySys[1][2]],
+            ['Wed', percentageDayDia[2][0], percentageDayDia[2][1], percentageDayDia[2][2], percentageDaySys[2][0], percentageDaySys[2][1], percentageDaySys[2][2]],
+            ['Thu', percentageDayDia[3][0], percentageDayDia[3][1], percentageDayDia[3][2], percentageDaySys[3][0], percentageDaySys[3][1], percentageDaySys[3][2]],
+            ['Fri', percentageDayDia[4][0], percentageDayDia[4][1], percentageDayDia[4][2], percentageDaySys[4][0], percentageDaySys[4][1], percentageDaySys[4][2]],
+            ['Sat', percentageDayDia[5][0], percentageDayDia[5][1], percentageDayDia[5][2], percentageDaySys[5][0], percentageDaySys[5][1], percentageDaySys[5][2]],
+            ['Sun', percentageDayDia[6][0], percentageDayDia[6][1], percentageDayDia[6][2], percentageDaySys[6][0], percentageDaySys[6][1], percentageDaySys[6][2]]
+        ]);
 
         var options = {
-          title: 'Daily Data for Blood Pressure',
+            title: 'Daily Data for Blood Pressure',
         };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('Daily_BP'));
@@ -638,14 +926,14 @@
     var higher = 0;
 
     function getWeeklyStats(dailyData) {
-         var weeklyStats = new Array(2);
-         lower = 0;
-         normal = 0;
-         higher = 0;
-         var stevec = 0;
-         var st = 0;
+        var weeklyStats = new Array(2);
+        lower = 0;
+        normal = 0;
+        higher = 0;
+        var stevec = 0;
+        var st = 0;
 
-         for(var i = 0; i < dailyData.length; i+=7) {
+        for(var i = 0; i < dailyData.length; i+=7) {
             lower=0;
             normal=0;
             higher=0;
@@ -676,19 +964,19 @@
     var weeklyDia = getWeeklyStats(dailyDis);
     var weeklyPulse = getWeeklyStats(dailyPulse);
     var weeklyTemperature = getWeeklyStats(dailyTemp);
-    
+
     /**
-        ALARM SYSTEM 
-    **/
+     ALARM SYSTEM
+     **/
 
     function sendEmail(template) {
         console.log("email");
         emailjs.send("gmail",template,{name: "9382665312", notes: "Check this out!"})
-        .then(function(response) {
-        console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
-        }, function(err) {
-        console.log("FAILED. error=", err);
-        });
+            .then(function(response) {
+                console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
+            }, function(err) {
+                console.log("FAILED. error=", err);
+            });
     }
 
     function warnTheDoc(days) {
@@ -697,11 +985,11 @@
         var data_for_one_month = 93;
         for(var i = 0; i < data_for_one_month; ++i) {
             for(var j = 0; j < 3; j++) {
-                
+
                 if (systolic_val[i+j] > 140 && diastolic_val[i+j] > 90 && pulse_rate_val[i+j] > 100) {
                     console.log("high");
                     high_blood_pressure++;
-                    break;                    
+                    break;
                 } else if (systolic_val[i+j] < 90 && diastolic_val[i+j] < 60 && pulse_rate_val[i+j] < 60) {
                     console.log("low");
                     low_blood_pressure++;
@@ -757,7 +1045,7 @@
     // warn the doctor
     warnTheDoc(10);
 
-    /* CHAT BOOT */
+	/* CHAT BOOT */
     var headID = document.getElementsByTagName("head")[0];
     var newCss = document.createElement('link');
     newCss.rel = 'stylesheet';
