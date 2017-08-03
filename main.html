@@ -49,7 +49,7 @@
         </tr>
         </tbody>
     </table>
-    <!-- Graphs --->
+    <!-- Graphs -->
     <div style="float: left; text-align: center;">
         <h2>Temperature graph</h2>
         <div id="Temparature_Graph" style="width: 700px; height: 500px;"></div>
@@ -516,11 +516,9 @@
     var dailyDis = getDailyStatistics(diastolic_val, 60, 90);
     var dailyPulse = getDailyStatistics(pulse_rate_val, 60, 100);
     var dailyTemp = getDailyStatistics(temperature_body_val, 35.8, 37.2);
-    console.log(dailySys);
 
     function getDailyPercentage(dailyData) {
         var dailyStats = new Array(dailyData.length);
-        console.log(dailyStats);
 
         for(var i = 0; i < dailyStats.length; ++i) {
             dailyStats[i] = new Array(2);
@@ -570,6 +568,65 @@
     var percentageDayPulse = getDailyPercentage(dailyPulse);
     //console.log("dhsafd");
     //console.log(percentageDaySys);
+
+    // WEEKLY STATISTICS
+    var normal = 0;
+    var lower = 0;
+    var higher = 0;
+
+    function getWeeklyStats(dailyData) {
+         var weeklyStats = new Array(2);
+         lower = 0;
+         normal = 0;
+         higher = 0;
+         var stevec = 0;
+         var st = 0;
+
+         for(var i = 0; i < dailyData.length; i+=7) {
+            lower=0;
+            normal=0;
+            higher=0;
+            if (stevec === 7) {
+                break;
+            }
+            for(var j=0; j < 7; j++) {
+                normal += dailyData[i+j][1];
+                lower += dailyData[i+j][0];
+                higher += dailyData[i+j][2];
+                debugger;
+
+            }
+            stevec++;
+            weeklyStats[st] = new Array(2);
+            weeklyStats[st][0] = lower/21;
+            weeklyStats[st][1] = normal/21;
+            weeklyStats[st][2] = higher/21;
+            st++;
+        }
+
+        return weeklyStats;
+    }
+
+    // TODO: DATA FOR EDO
+    console.log(dailySys);
+    var weeklySys = getWeeklyStats(dailySys);
+    console.log(weeklySys);
+    var weeklyDia = getWeeklyStats(dailyDis);
+    var weeklyPulse = getWeeklyStats(dailyPulse);
+    var weeklyTemperature = getWeeklyStats(dailyTemp);
+    /*console.log("msjdbJH");
+    console.log(weeklySys);
+    console.log(weeklyDia);
+    console.log(weeklyPulse);
+    console.log(weeklyTemperature);
+    debugger;*/
+    
+
+
+    // MONTHLY STATISTICS
+
+
+    // 6 MONTH STATISTIC
 
     /* CHAT BOOT */
     var headID = document.getElementsByTagName("head")[0];
